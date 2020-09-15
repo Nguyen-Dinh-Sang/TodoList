@@ -57,6 +57,28 @@ INSERT INTO Employee(Email, Password, FullName, PhoneNumber, IdRole)
 VALUES(N'nhanvien3@gmail.com', '12345', N'Quân Bất Cần', '0345225651', 2)
 GO
 
+CREATE TABLE Status (
+	Id INT IDENTITY(1,1) PRIMARY KEY,
+	Status NVARCHAR(50)
+)
+GO
+
+TRUNCATE TABLE Status
+GO
+
+INSERT INTO Status(Status)
+VALUES(N'Việc Cần Làm')
+
+INSERT INTO Status(Status)
+VALUES(N'Việc Đang Làm')
+
+INSERT INTO Status(Status)
+VALUES(N'Việc Đã Hoàn Thành')
+
+INSERT INTO Status(Status)
+VALUES(N'Việc Trễ Hạn')
+GO
+
 SELECT *
 FROM Role
 
@@ -64,8 +86,14 @@ SELECT *
 FROM Employee
 GO
 
+SELECT *
+FROM Status
+
 DROP TABLE Employee
 GO
 
 DROP TABLE Role
+GO
+
+DROP TABLE Status
 GO
