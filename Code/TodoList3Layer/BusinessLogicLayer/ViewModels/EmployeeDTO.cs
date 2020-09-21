@@ -12,7 +12,13 @@ namespace BusinessLogicLayer.ViewModels
         public string Password { get; set; }
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
-        public int? IdRole { get; set; }
+        public Role IdRole { get; set; }
         public DateTime? DateCreated { get; set; }
+
+        public enum Role
+        {
+            NhanVien = 2,
+            GiamDoc = 1
+        }
     }
 }
