@@ -17,11 +17,24 @@ namespace PresentationLayer.Pages
         public PrivacyModel(ILogger<PrivacyModel> logger)
         {
             _logger = logger;
-            IEmployeeService employeeService = new EmployeeService(); 
-            foreach(var item in employeeService.getAll())
+            IEmployeeService employeeService = new EmployeeService();
+
+            Console.WriteLine("GET ALL");
+            foreach (var item in employeeService.getAll())
             {
-                Console.WriteLine(item.Email);
+                Console.WriteLine(item.IdRole);
             }
+            var employee = employeeService.login("giamdoc1@gmail.com", "12345");
+            if (employee != null)
+            {
+                Console.WriteLine("LOGIN " + employee.FullName);
+            } else
+            {
+                Console.WriteLine("LOGIN NULL");
+            }
+            Console.WriteLine("Check email " + employeeService.checkEmailExists("giamdoc1@gmail.com"));
+            Console.WriteLine("Check email " + employeeService.checkEmailExists("phongchanly@gmail.com"));
+            Console.WriteLine("Get by id 1 " + employeeService.getById(1).Email);
         }
 
         public void OnGet()

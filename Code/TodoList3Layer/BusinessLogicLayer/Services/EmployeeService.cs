@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using AutoMapper;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Mapping;
 using BusinessLogicLayer.ViewModels;
 using DataAccessLayer.Entitys;
@@ -12,11 +13,32 @@ namespace BusinessLogicLayer.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        private EmployeeMapping employeeMapping = new EmployeeMapping();
         private IEmployeeRepository employeeRepository = new EmployeeRepository();
-        List<EmployeeDTO> IEmployeeService.getAll()
+        private IMapper mapper = new MappingConfig().config();
+
+        public bool checkEmailExists(string email)
         {
-            return employeeMapping.toDTOs(employeeRepository.getAll());
+            return employeeRepository.checkEmailExists(email);
+        }
+
+        public IEnumerable<EmployeeDTO> getAll()
+        {
+            return mapper.Map<IEnumerable<EmployeeEntity>, IEnumerable<EmployeeDTO>>(employeeRepository.getAll());
+        }
+
+        public EmployeeDTO getById(int id)
+        {
+            return mapper.Map<EmployeeEntity, EmployeeDTO>(employeeRepository.getById(id));
+        }
+
+        public EmployeeDTO login(string email, string password)
+        {
+            return mapper.Map<EmployeeEntity, EmployeeDTO>(employeeRepository.login(email, password));
+        }
+
+        public EmployeeDTO save(EmployeeDTO employee)
+        {
+            return mapper.Map<EmployeeEntity, EmployeeDTO>(employeeRepository.save(mapper.Map<EmployeeDTO, EmployeeEntity>(employee)));
         }
     }
 }
