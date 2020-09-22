@@ -11,9 +11,10 @@ namespace DataAccessLayer.Interfaces
 
         IEnumerable<WorkList> getPublicByIdEmployee(int id);
 
-        // sửa tên vs tạo mới
-        WorkList save(WorkList employee);
+        WorkList save(WorkList workList, int idEmployee);
 
-        // thêm người vào danh sách
+        WorkList addEmployee(int idWorkList, int idEmployee);
+
+        bool remove(int id);
     }
 }

@@ -29,18 +29,11 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Employee> getByIdWorkList(int id)
         {
-            /*
-            var result = from m in todoListDBContext.Employee
-                         where m.Id.Contains((from x in todoListDBContext.WorkListEmployee
-                                             where x.IdWorkList == id
-                                              select x.IdEmployee))
-                         select m;
-                         */
-            var result2 = from e in todoListDBContext.Employee
+            var result = from e in todoListDBContext.Employee
                           join wle in todoListDBContext.WorkListEmployee on e.Id equals wle.IdEmployee
                           where wle.IdWorkList == id 
                          select e;
-            return result2;
+            return result;
         }
 
         public Employee login(string email, string password)
@@ -69,7 +62,6 @@ namespace DataAccessLayer.Repositories
                 todoListDBContext.SaveChanges();
                 return todoListDBContext.Employee.Find(employee.Id);
             }
-            
         }
     }
 }
