@@ -17,8 +17,8 @@ namespace DataAccessLayer.Entitys
         public DateTime? DateCreated { get; set; }
 
         [ForeignKey(nameof(IdEmployee))]
-        [InverseProperty(nameof(EmployeeEntity.Comment))]
-        public virtual EmployeeEntity IdEmployeeNavigation { get; set; }
+        [InverseProperty(nameof(Employee.Comment))]
+        public virtual Employee IdEmployeeNavigation { get; set; }
         [ForeignKey(nameof(IdWork))]
         [InverseProperty(nameof(Work.Comment))]
         public virtual Work IdWorkNavigation { get; set; }

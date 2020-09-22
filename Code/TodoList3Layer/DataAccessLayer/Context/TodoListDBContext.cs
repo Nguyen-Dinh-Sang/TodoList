@@ -25,7 +25,7 @@ namespace DataAccessLayer.Context
         }
 
         public virtual DbSet<Comment> Comment { get; set; }
-        public virtual DbSet<EmployeeEntity> Employee { get; set; }
+        public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Work> Work { get; set; }
         public virtual DbSet<WorkEmployee> WorkEmployee { get; set; }
@@ -62,7 +62,7 @@ namespace DataAccessLayer.Context
                     .HasConstraintName("Comment_Work");
             });
 
-            modelBuilder.Entity<EmployeeEntity>(entity =>
+            modelBuilder.Entity<Employee>(entity =>
             {
                 entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
 

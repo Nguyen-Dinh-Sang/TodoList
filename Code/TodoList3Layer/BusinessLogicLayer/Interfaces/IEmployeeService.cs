@@ -17,5 +17,7 @@ namespace BusinessLogicLayer.Interfaces
         EmployeeDTO getById(int id);
 
         EmployeeDTO save(EmployeeDTO employee);
+
+        IEnumerable<EmployeeDTO> getByIdWorkList(int id);
     }
 }

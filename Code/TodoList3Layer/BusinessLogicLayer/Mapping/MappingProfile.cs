@@ -11,8 +11,8 @@ namespace BusinessLogicLayer.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<EmployeeDTO, EmployeeEntity>();
-            CreateMap<EmployeeEntity, EmployeeDTO>();
+            CreateMap<EmployeeDTO, Employee>();
+            CreateMap<Employee, EmployeeDTO>();
         }
     }
 }

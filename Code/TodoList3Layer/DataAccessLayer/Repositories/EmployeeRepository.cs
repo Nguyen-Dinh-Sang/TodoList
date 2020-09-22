@@ -17,26 +17,42 @@ namespace DataAccessLayer.Repositories
             return todoListDBContext.Employee.Count(x => x.Email == email) > 0;
         }
 
-        public IEnumerable<EmployeeEntity> getAll()
+        public IEnumerable<Employee> getAll()
         {
             return todoListDBContext.Employee;
         }
 
-        public EmployeeEntity getById(int id)
+        public Employee getById(int id)
         {
             return todoListDBContext.Employee.Find(id);
         }
 
-        public EmployeeEntity login(string email, string password)
+        public IEnumerable<Employee> getByIdWorkList(int id)
         {
-            var result = from m in todoListDBContext.Employee.Cast<EmployeeEntity>()
+            /*
+            var result = from m in todoListDBContext.Employee
+                         where m.Id.Contains((from x in todoListDBContext.WorkListEmployee
+                                             where x.IdWorkList == id
+                                              select x.IdEmployee))
+                         select m;
+                         */
+            var result2 = from e in todoListDBContext.Employee
+                          join wle in todoListDBContext.WorkListEmployee on e.Id equals wle.IdEmployee
+                          where wle.IdWorkList == id 
+                         select e;
+            return result2;
+        }
+
+        public Employee login(string email, string password)
+        {
+            var result = from m in todoListDBContext.Employee
                            where m.Email == email && m.Password == password
                            select m;
 
             return result.Count() > 0 ? result.First() : null;
         }
 
-        public EmployeeEntity save(EmployeeEntity employee)
+        public Employee save(Employee employee)
         {
             if (employee.Id == 0)
             {
@@ -45,7 +61,7 @@ namespace DataAccessLayer.Repositories
                 return result.Entity;
             } else
             {
-                EmployeeEntity findResult = todoListDBContext.Employee.Find(employee.Id);
+                Employee findResult = todoListDBContext.Employee.Find(employee.Id);
                 findResult.Password = employee.Password;
                 findResult.FullName = employee.FullName;
                 findResult.PhoneNumber = employee.PhoneNumber;

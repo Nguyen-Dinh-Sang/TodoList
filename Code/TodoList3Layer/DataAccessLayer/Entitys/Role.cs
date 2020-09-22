@@ -9,7 +9,7 @@ namespace DataAccessLayer.Entitys
     {
         public Role()
         {
-            Employee = new HashSet<EmployeeEntity>();
+            Employee = new HashSet<Employee>();
         }
 
         [Key]
@@ -21,6 +21,6 @@ namespace DataAccessLayer.Entitys
         public DateTime? DateCreated { get; set; }
 
         [InverseProperty("IdRoleNavigation")]
-        public virtual ICollection<EmployeeEntity> Employee { get; set; }
+        public virtual ICollection<Employee> Employee { get; set; }
     }
 }
