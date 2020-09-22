@@ -13,6 +13,9 @@ namespace BusinessLogicLayer.Mapping
         {
             CreateMap<EmployeeDTO, Employee>();
             CreateMap<Employee, EmployeeDTO>();
+
+            CreateMap<WorkListDTO, WorkList>();
+            CreateMap<WorkList, WorkListDTO>();
         }
     }
 }
