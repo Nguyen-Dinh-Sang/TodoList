@@ -1,0 +1,84 @@
+﻿@page
+@model PresentationLayer.Pages.UserModel
+@{
+}
+<html>
+<head>
+    <link rel="icon" type="image/png" href="~/css/Table_Responsive_v1/images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/css/main.css">
+    <body>
+        <div class="">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table100">
+                        <table >
+                            <thead>
+                                <tr class="table100-head" > 
+                                   
+                                    <th class="column5" style=" text-align:center" >FullName</th>
+                                    <th class="column1" style=" text-align:center;padding-right:22px">Email</th>
+                                    <th class="column3" style=" text-align:center">Password</th>
+                                    <th class="column4" style=" text-align:center">Role</th>
+                                    <th class="column2" style=" text-align:center">DateCreated</th>
+                                    <th class="column6" style=" text-align:center;padding-left:62px">ViewWork</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.getAllEmployee())
+                                {
+                                    <tr>
+                                   
+                                        <td class="column5" style="text-align:center">@item.FullName </td>
+                                        <td class="column1" style="text-align:center; padding-right:22px">@item.Email</td>
+                                        <td class="column3" style="text-align:center">@item.Password </td>
+                                        @if (@item.IdRole == 1)
+                                        {
+                                            <td class="column4" style="text-align:center">Giám đốc</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="column4" style="text-align:center">Nhân viên</td>
+                                        }
+                                        <td class="column2" style="text-align:center">@item.DateCreated</td>
+                                        <td class="column6"style="text-align:center;padding-left:62px"><a href="/user/id=@item.Id">Xem danh sách công việc</a></td>
+
+                                    </tr>
+
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </body>
+</head>
+<script src="~/css/Table_Responsive_v1/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/css/Table_Responsive_v1/vendor/bootstrap/js/popper.js"></script>
+<script src="~/css/Table_Responsive_v1/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/css/Table_Responsive_v1/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/css/Table_Responsive_v1/js/main.js"></script>
+
+
+</html>
