@@ -39,7 +39,6 @@ namespace PresentationLayer.Pages
                     employeeDTO.Email= Request.Form["registration_email"];
                     employeeDTO.FullName= Request.Form["registration_fullname"];
                     employeeDTO.Password= Request.Form["registration_password"];
-                    employeeDTO.DateCreated= DateTime.Parse(Request.Form["registration_datecreated"]);
                     if(employeeService.checkEmailExists(employeeDTO.Email)==true)
                     {
                         Console.WriteLine("Email đã tồn tại");
