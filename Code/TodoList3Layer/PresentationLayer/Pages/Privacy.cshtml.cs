@@ -20,9 +20,9 @@ namespace PresentationLayer.Pages
             IEmployeeService employeeService = new EmployeeService();
 
             Console.WriteLine("GET ALL");
-            foreach (var item in employeeService.getAll())
+            foreach (var item in employeeService.getByIdWorkList(2))
             {
-                Console.WriteLine(item.IdRole);
+                Console.WriteLine("id = 3 " + item.FullName);
             }
             var employee = employeeService.login("giamdoc1@gmail.com", "12345");
             if (employee != null)

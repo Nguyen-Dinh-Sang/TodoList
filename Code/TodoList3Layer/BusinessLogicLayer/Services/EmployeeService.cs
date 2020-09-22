@@ -23,22 +23,27 @@ namespace BusinessLogicLayer.Services
 
         public IEnumerable<EmployeeDTO> getAll()
         {
-            return mapper.Map<IEnumerable<EmployeeEntity>, IEnumerable<EmployeeDTO>>(employeeRepository.getAll());
+            return mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDTO>>(employeeRepository.getAll());
         }
 
         public EmployeeDTO getById(int id)
         {
-            return mapper.Map<EmployeeEntity, EmployeeDTO>(employeeRepository.getById(id));
+            return mapper.Map<Employee, EmployeeDTO>(employeeRepository.getById(id));
+        }
+
+        public IEnumerable<EmployeeDTO> getByIdWorkList(int id)
+        {
+            return mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDTO>>(employeeRepository.getByIdWorkList(id));
         }
 
         public EmployeeDTO login(string email, string password)
         {
-            return mapper.Map<EmployeeEntity, EmployeeDTO>(employeeRepository.login(email, password));
+            return mapper.Map<Employee, EmployeeDTO>(employeeRepository.login(email, password));
         }
 
         public EmployeeDTO save(EmployeeDTO employee)
         {
-            return mapper.Map<EmployeeEntity, EmployeeDTO>(employeeRepository.save(mapper.Map<EmployeeDTO, EmployeeEntity>(employee)));
+            return mapper.Map<Employee, EmployeeDTO>(employeeRepository.save(mapper.Map<EmployeeDTO, Employee>(employee)));
         }
     }
 }

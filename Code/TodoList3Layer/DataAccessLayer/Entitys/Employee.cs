@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccessLayer.Entitys
 {
-    public partial class EmployeeEntity
+    public partial class Employee
     {
-        public EmployeeEntity()
+        public Employee()
         {
             Comment = new HashSet<Comment>();
             WorkEmployee = new HashSet<WorkEmployee>();

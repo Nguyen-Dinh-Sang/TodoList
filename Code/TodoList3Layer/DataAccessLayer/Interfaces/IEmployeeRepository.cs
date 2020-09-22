@@ -7,14 +7,16 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IEmployeeRepository
     {
-        IEnumerable<EmployeeEntity> getAll();
+        IEnumerable<Employee> getAll();
 
-        EmployeeEntity login(string email, string password);
+        Employee login(string email, string password);
 
         bool checkEmailExists(string email);
 
-        EmployeeEntity getById(int id);
+        Employee getById(int id);
 
-        EmployeeEntity save(EmployeeEntity employee);
+        Employee save(Employee employee);
+
+        IEnumerable<Employee> getByIdWorkList(int id);
     }
 }
