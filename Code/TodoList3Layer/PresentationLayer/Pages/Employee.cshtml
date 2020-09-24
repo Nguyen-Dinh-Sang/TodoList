@@ -1,0 +1,403 @@
+﻿@page
+@model PresentationLayer.Pages.EmployeeModel
+@{
+}
+<html>
+<head>
+    <link rel="icon" type="image/png" href="~/css/Table_Responsive_v1/images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Table_Responsive_v1/css/main.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Menu_scroll/menu_scroll.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/Opennav/Opennav.css" />
+    <link rel="stylesheet" href="~/css/Login_css.css" />
+
+    <body>
+
+
+        <div style="float:right">
+            <div style="float:left; border:solid 2px red">Chào mừng @Model.getSessionFullname()</div>
+            <div style="float:left; border-left:solid 2px black;"><a href="/login">Đăng xuất</a></div>
+        </div>
+        <div>
+            <div id="wrapper" style="clear:both">
+                <!-- Sidebar -->
+                <div id="sidebar-wrapper" style="float:left ">
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-brand">
+                            <a href="#">
+                                Danh sách Nhân viên
+                            </a>
+                        </li>
+                        @foreach (var item in Model.getAllEmployee())
+                        {
+                            <li>
+                                <a href="/employee?id=@item.Id">@item.FullName</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- /#sidebar-wrapper -->
+                <!-- Page Content -->
+                @*<div id="page-content-wrapper">
+        <div style="float:right">
+            <button id="menu-toggle" class="btn btn-secondary">
+                <i id="toggleIcon" class="fa fa-angle-double-down"></i> Toggle Menu <i class="fa fa-filter"></i>
+            </button>
+        </div>*@
+
+
+
+
+                @*<form method="post">
+            <div class="login-wrap">
+                <div class="login-html">
+
+                    <div class="login-form">
+                        <div class="sign-up-htm">
+                            <div class="group">
+                                <label for="WorkListName" class="label">WorkListName</label>
+                                <input id="Edit_WorkListName" type="text" class="input" name="Edit_WorkListName">
+                            </div>
+                            <div class="group">
+                                <label for="WorkListName" class="label">WorkListName</label>
+                                <input id="Edit_WorkListStatus" type="text" class="input" name="Edit_WorkListStatus">
+                            </div>
+                            <div class="group">
+                                <label for="DateCreatedWorkList" class="label">DateCreated</label>
+                                <input id="Edit_DateCreatedWorkList" type="text" class="input" name="Edit_DateCreatedWorkList">
+                            </div>
+                            <div class="group">
+                                <input type="submit" name="Add_WorkList" id="Add_WorkList" class="button" value="Add WorkList">
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+        </form>*@
+            <div class="container-fluid" style="float:left;clear:both">
+
+                @if (@Request.QueryString.HasValue == true)
+                {
+
+                    var get = Request.QueryString.Value.Split('=');
+                    string loai = get[0];
+                    string id_get = get[1];
+                    string id_role = Model.getSessionIdrole();
+                    string id_employee = Model.getid_employee();
+                    string id_worklist = Model.getid_worklist();
+                    string id_work = Model.getid_work();
+                    @if (loai.Equals("?id") == true)
+                    {
+
+                        <div style="background-color:yellow">
+                            <div style="float:left">
+                                <a href="/employee?Addworklist=@id_get">Thêm danh sách công việc</a>
+                            </div>
+                            <div style="float:left;padding-left:5px">
+                                <a href="/employee?Editworklist=@id_get">Sửa danh sách công việc</a>
+                            </div>
+                        </div>
+                        <div style="clear:both">
+                            @foreach (var item in Model.getAllByIdEmployee())
+                            {
+                                <div>
+                                    <a href="/employee?danhsachcongviec=@item.Id">
+                                        <div style="width:100%;height:100px; background-color:steelblue; border:5px solid red; color:black">
+                                            <div>Tên danh sách: @item.WorkListName</div>
+                                            <div>Trạng thái: @item.IdWorkListStatus</div>
+                                        </div>
+
+                                    </a>
+                                    <div style="float:left">
+                                        <form method="post">
+                                            <input type="hidden" id="id_delete" name="id_delete" value="@item.Id" />
+                                            <input type="submit" id="danhsachcongviec_delete" name="danhsachcongviec_delete" value="Delete" />
+                                        </form>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    }
+
+                    @if (loai.Equals("?danhsachcongviec"))
+                    {
+                        <div>
+                            <a href="/employee?id=@id_employee"> Back </a>
+                        </div>
+                        <div style="background-color:yellow">
+                            <div style="float:left">
+                                <a href="/employee?Addwork=@id_get">Thêm công việc</a>
+                            </div>
+                            <div style="float:left;padding-left:5px">
+                                <a href="/employee?Editwork=@id_get">Sửa công việc</a>
+                            </div>
+                        </div>
+                        <div style="clear:both">
+                            @if (id_role.Equals("1"))
+                            {
+
+
+                                <div>
+                                    <div style="float:left">
+                                        <div>
+                                            mới tạo
+                                        </div>
+                                        <div>
+                                            <a href="/employee?congviec=1">
+                                                <div style="width:100%;height:50px; background-color:steelblue">
+                                                    Công việc giám đốc xem 1.
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div style="float:left">
+                                        <div>
+                                            đang làm
+                                        </div>
+                                        <div>
+                                            <a href="/employee?congviec=2">
+                                                <div style="width:300px;height:50px; background-color:steelblue">
+                                                    Công việc giám đốc xem 2.
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div style="float:left">
+                                        <div>
+                                            đã làm
+                                        </div>
+                                        <div>
+                                            <a href="/employee?congviec=2">
+                                                <div style="width:300px;height:50px; background-color:steelblue">
+                                                    Công việc giám đốc xem 3.
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div style="float:left">
+                                        <div>
+                                            trễ hạn
+                                        </div>
+                                        <div>
+                                            <a href="/employee?congviec=2">
+                                                <div style="width:300px;height:50px; background-color:steelblue">
+                                                    Công việc giám đốc xem 4.
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                            }
+                            else
+                            {
+                                @if (id_role.Equals("2"))
+                                {
+                                    <div>
+                                        <div style="float:left">
+                                            <div>
+                                                mới tạo
+                                            </div>
+                                            <div>
+                                                <a href="/employee?congviec=1">
+                                                    <div style="width:100%;height:50px; background-color:steelblue">
+                                                        Công việc public 1.
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div style="float:left">
+                                            <div>
+                                                đang làm
+                                            </div>
+                                            <div>
+                                                <a href="/employee?congviec=2">
+                                                    <div style="width:300px;height:50px; background-color:steelblue">
+                                                        Công việc public 2.
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div style="float:left">
+                                            <div>
+                                                đã làm
+                                            </div>
+                                            <div>
+                                                <a href="/employee?congviec=2">
+                                                    <div style="width:300px;height:50px; background-color:steelblue">
+                                                        Công việc public 3.
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div style="float:left">
+                                            <div>
+                                                trễ hạn
+                                            </div>
+                                            <div>
+                                                <a href="/employee?congviec=2">
+                                                    <div style="width:300px;height:50px; background-color:steelblue">
+                                                        Công việc public 4.
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+
+
+
+
+                    }
+
+                    @if (loai.Equals("?congviec"))
+                    {
+
+                        <div><a href="/employee?danhsachcongviec=@id_worklist">Back</a></div>
+                        <a href="/employee?chitietcongviec=2">
+                            <div style="width:300px;height:50px; background-color:steelblue">
+                                Chi tiết công việc
+                            </div>
+                        </a>
+                    }
+
+                    @if (loai.Equals("?chitietcongviec"))
+                    {
+                        <div>
+                            <a href="/employee?congviec=@id_work">Back</a>
+                        </div>
+                        <p>Chi tiết công việc :</p>
+                    }
+
+                    @if (loai.Equals("?Addworklist"))
+                    {
+                        <h1> AddWorkList @id_get</h1>
+                        <form method="post">
+                            <div>
+
+
+                                <div>
+                                    <div>
+
+                                        <div>
+                                            <div>
+                                                <div><label>AddWorkList</label></div>
+                                                <div class="group">
+                                                    <label for="WorkListName" class="label">WorkListName</label>
+                                                    <input id="Add_WorkListName" type="text" class="input" name="Add_WorkListName">
+                                                </div>
+                                                <div class="group">
+                                                    <label for="WorkListStatus" class="label">WorkListStatus</label>
+                                                    <input id="Add_WorkListStatus" type="text" class="input" name="Add_WorkListStatus">
+                                                </div>
+                                                <div class="group">
+                                                    <input type="submit" name="Add_WorkList" id="Add_WorkList" class="button" value="Add WorkList">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    }
+
+                    @if (loai.Equals("?Editworklist"))
+                    {
+                        <h1> EditWorkList </h1>
+                        <input type="text" value="@id_get" />
+                        <form method="post">
+                            <div>
+
+                                <div>
+                                    <div>
+                                        <label>Edit Work</label>
+
+                                        <div>
+                                            <div>
+                                                <div class="group">
+                                                    <label for="WorkListName" class="label">WorkListName</label>
+                                                    <input id="Edit_WorkListName" type="text" class="input" name="Edit_WorkListName">
+                                                </div>
+                                                <div class="group">
+                                                    <label for="WorkListName" class="label">WorkListName</label>
+                                                    <input id="Edit_WorkListStatus" type="text" class="input" name="Edit_WorkListStatus">
+                                                </div>
+                                                <div class="group">
+                                                    <label for="DateCreatedWorkList" class="label">DateCreated</label>
+                                                    <input id="Edit_DateCreatedWorkList" type="text" class="input" name="Edit_DateCreatedWorkList">
+                                                </div>
+                                                <div class="group">
+                                                    <input type="submit" name="Edit_WorkList" id="Edit_WorkList" class="button" value="Edit WorkList">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                }
+
+            </div>
+            </div>
+
+            <div id="mySidenavAddWork" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNavAddWork()">&times;</a>
+                <a href="#">About</a>
+                <a href="#">Services</a>
+                <a href="#">Clients</a>
+                <a href="#">Contact</a>
+            </div>
+            <div id="mySidenavEditWork" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNavEditWork()">&times;</a>
+                <a href="#">About</a>
+                <a href="#">Services</a>
+                <a href="#">Clients</a>
+                <a href="#">Contact</a>
+            </div>
+           
+        </div>
+                    <!-- /#page-content-wrapper -->
+               
+                <!-- /#wrapper -->
+
+
+
+
+
+</body>
+</head>
+<script src="~/css/Table_Responsive_v1/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/css/Table_Responsive_v1/vendor/bootstrap/js/popper.js"></script>
+<script src="~/css/Table_Responsive_v1/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/css/Table_Responsive_v1/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/css/Table_Responsive_v1/js/main.js"></script>
+<script src="~/js/Menu_scroll/menu_scroll.js"></script>
+<script src="~/js/Opennav/Opennav.js"></script>
+
+</html>
