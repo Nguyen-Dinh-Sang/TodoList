@@ -25,6 +25,11 @@ namespace BusinessLogicLayer.Services
             return mapper.Map<IEnumerable<WorkList>, IEnumerable<WorkListDTO>>(workListRepository.getAllByIdEmployee(id));
         }
 
+        public WorkListDTO getById(int id)
+        {
+            return mapper.Map<WorkList, WorkListDTO>(workListRepository.getById(id));
+        }
+
         public IEnumerable<WorkListDTO> getPublicByIdEmployee(int id)
         {
             return mapper.Map<IEnumerable<WorkList>, IEnumerable<WorkListDTO>>(workListRepository.getPublicByIdEmployee(id));

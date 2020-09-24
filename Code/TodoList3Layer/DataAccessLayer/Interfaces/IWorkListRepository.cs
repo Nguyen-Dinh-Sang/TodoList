@@ -16,5 +16,7 @@ namespace DataAccessLayer.Interfaces
         WorkList addEmployee(int idWorkList, int idEmployee);
 
         bool remove(int id);
+
+        WorkList getById(int id);
     }
 }

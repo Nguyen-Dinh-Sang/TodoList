@@ -16,5 +16,7 @@ namespace BusinessLogicLayer.Interfaces
         WorkListDTO addEmployee(int idWorkList, int idEmployee);
 
         bool remove(int id);
+
+        WorkListDTO getById(int id);
     }
 }

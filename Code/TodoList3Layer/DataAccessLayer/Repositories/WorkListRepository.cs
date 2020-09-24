@@ -32,6 +32,11 @@ namespace DataAccessLayer.Repositories
             return result;
         }
 
+        public WorkList getById(int id)
+        {
+            return todoListDBContext.WorkList.Find(id);
+        }
+
         public IEnumerable<WorkList> getPublicByIdEmployee(int id)
         {
             var result = from wl in todoListDBContext.WorkList
