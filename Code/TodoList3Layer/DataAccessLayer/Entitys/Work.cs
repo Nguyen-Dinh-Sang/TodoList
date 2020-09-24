@@ -13,22 +13,17 @@ namespace DataAccessLayer.Entitys
             WorkEmployee = new HashSet<WorkEmployee>();
         }
 
-        [Key]
         public int Id { get; set; }
         public int? IdWorkList { get; set; }
         public int? IdWorkStatus { get; set; }
-        [StringLength(200)]
         public string WorkContent { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
-        [ForeignKey(nameof(IdWorkList))]
-        [InverseProperty(nameof(WorkList.Work))]
         public virtual WorkList IdWorkListNavigation { get; set; }
-        [ForeignKey(nameof(IdWorkStatus))]
-        [InverseProperty(nameof(WorkStatus.Work))]
         public virtual WorkStatus IdWorkStatusNavigation { get; set; }
-        [InverseProperty("IdWorkNavigation")]
         public virtual ICollection<Comment> Comment { get; set; }
-        [InverseProperty("IdWorkNavigation")]
         public virtual ICollection<WorkEmployee> WorkEmployee { get; set; }
     }
 }

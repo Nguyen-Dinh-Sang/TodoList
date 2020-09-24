@@ -1,6 +1,7 @@
-﻿using DataAccessLayer.Entitys;
+﻿using System;
+using DataAccessLayer.Entitys;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DataAccessLayer.Context
 {
@@ -19,6 +20,7 @@ namespace DataAccessLayer.Context
 
             return instance;
         }
+
         public TodoListDBContext(DbContextOptions<TodoListDBContext> options)
             : base(options)
         {
@@ -47,7 +49,11 @@ namespace DataAccessLayer.Context
         {
             modelBuilder.Entity<Comment>(entity =>
             {
-                entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.CommentContent).HasMaxLength(200);
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.IdEmployeeNavigation)
                     .WithMany(p => p.Comment)
@@ -64,13 +70,23 @@ namespace DataAccessLayer.Context
 
             modelBuilder.Entity<Employee>(entity =>
             {
-                entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Email).HasMaxLength(100);
+
+                entity.Property(e => e.FullName).HasMaxLength(100);
 
                 entity.Property(e => e.IdRole).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Password).IsUnicode(false);
+                entity.Property(e => e.Password)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.PhoneNumber).IsUnicode(false);
+                entity.Property(e => e.PhoneNumber)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.IdRoleNavigation)
                     .WithMany(p => p.Employee)
@@ -81,12 +97,32 @@ namespace DataAccessLayer.Context
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Role1)
+                    .HasColumnName("Role")
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Work>(entity =>
             {
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.EndDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.IdWorkStatus).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.WorkContent).HasMaxLength(200);
 
                 entity.HasOne(d => d.IdWorkListNavigation)
                     .WithMany(p => p.Work)
@@ -103,7 +139,11 @@ namespace DataAccessLayer.Context
 
             modelBuilder.Entity<WorkEmployee>(entity =>
             {
-                entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
+                entity.ToTable("Work_Employee");
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.IdEmployeeNavigation)
                     .WithMany(p => p.WorkEmployee)
@@ -120,9 +160,13 @@ namespace DataAccessLayer.Context
 
             modelBuilder.Entity<WorkList>(entity =>
             {
-                entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.IdWorkListStatus).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.WorkListName).HasMaxLength(100);
 
                 entity.HasOne(d => d.IdWorkListStatusNavigation)
                     .WithMany(p => p.WorkList)
@@ -133,7 +177,11 @@ namespace DataAccessLayer.Context
 
             modelBuilder.Entity<WorkListEmployee>(entity =>
             {
-                entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
+                entity.ToTable("WorkList_Employee");
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.IdEmployeeNavigation)
                     .WithMany(p => p.WorkListEmployee)
@@ -150,14 +198,25 @@ namespace DataAccessLayer.Context
 
             modelBuilder.Entity<WorkListStatus>(entity =>
             {
-                entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.WorkListStatus1).IsUnicode(false);
+                entity.Property(e => e.WorkListStatus1)
+                    .HasColumnName("WorkListStatus")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<WorkStatus>(entity =>
             {
-                entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.WorkStatus1)
+                    .HasColumnName("WorkStatus")
+                    .HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);
