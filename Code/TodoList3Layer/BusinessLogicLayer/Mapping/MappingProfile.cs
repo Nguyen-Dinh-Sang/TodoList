@@ -19,6 +19,9 @@ namespace BusinessLogicLayer.Mapping
 
             CreateMap<Work, WorkDTO>();
             CreateMap<WorkDTO, Work>();
+
+            CreateMap<Comment, CommentDTO>();
+            CreateMap<CommentDTO, Comment>();
         }
     }
 }
