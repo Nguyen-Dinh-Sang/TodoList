@@ -51,7 +51,7 @@ namespace DataAccessLayer.Repositories
             var results = todoListDBContext.WorkList.Find(id);
             todoListDBContext.WorkList.Remove(results);
             todoListDBContext.SaveChanges();
-            if (todoListDBContext.WorkList.Find(id) != null)
+            if (todoListDBContext.WorkList.Find(id) == null)
             {
                 return true;
             }
@@ -64,10 +64,9 @@ namespace DataAccessLayer.Repositories
             {
                 var result = todoListDBContext.WorkList.Add(workList);
                 todoListDBContext.SaveChanges();
-                int idNewWorkList = todoListDBContext.WorkList.Select(wl => wl.Id).Max();
                 WorkListEmployee workListEmployee = new WorkListEmployee();
-                workListEmployee.IdEmployee = idNewWorkList;
-                workListEmployee.IdWorkList = idNewWorkList;
+                workListEmployee.IdEmployee = idEmployee;
+                workListEmployee.IdWorkList = result.Entity.Id;
                 todoListDBContext.WorkListEmployee.Add(workListEmployee);
                 todoListDBContext.SaveChanges();
                 return result.Entity;
