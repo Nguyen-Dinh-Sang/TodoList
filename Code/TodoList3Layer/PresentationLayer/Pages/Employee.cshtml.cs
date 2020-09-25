@@ -93,5 +93,9 @@ namespace PresentationLayer.Pages
         {
             return employeeService.getAll();
         }
+        public WorkListDTO getById(int id)
+        {
+            return workListService.getById(id);
+        }
     }
 }

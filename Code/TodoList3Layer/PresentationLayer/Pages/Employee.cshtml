@@ -105,28 +105,29 @@
                             <div style="float:left">
                                 <a href="/employee?Addworklist=@id_get">Thêm danh sách công việc</a>
                             </div>
-                            <div style="float:left;padding-left:5px">
-                                <a href="/employee?Editworklist=@id_get">Sửa danh sách công việc</a>
-                            </div>
+                            
                         </div>
                         <div style="clear:both">
                             @foreach (var item in Model.getAllByIdEmployee())
                             {
-                                <div>
-                                    <a href="/employee?danhsachcongviec=@item.Id">
-                                        <div style="width:100%;height:100px; background-color:steelblue; border:5px solid red; color:black">
-                                            <div>Tên danh sách: @item.WorkListName</div>
-                                            <div>Trạng thái: @item.IdWorkListStatus</div>
-                                        </div>
-
-                                    </a>
-                                    <div style="float:left">
-                                        <form method="post">
-                                            <input type="hidden" id="id_delete" name="id_delete" value="@item.Id" />
-                                            <input type="submit" id="danhsachcongviec_delete" name="danhsachcongviec_delete" value="Delete" />
-                                        </form>
+                            <div>
+                                <a href="/employee?danhsachcongviec=@item.Id">
+                                    <div style="width:100%;height:100px; background-color:steelblue; border:5px solid red; color:black">
+                                        <div>Tên danh sách: @item.WorkListName</div>
+                                        <div>Trạng thái: @item.IdWorkListStatus</div>
                                     </div>
+
+                                </a>
+                                <div style="float:left">
+                                    <form method="post">
+                                        <input type="hidden" id="id_delete" name="id_delete" value="@item.Id" />
+                                        <input type="submit" id="danhsachcongviec_delete" name="danhsachcongviec_delete" value="Delete" />
+                                    </form>
                                 </div>
+                                <div style="float:left;padding-left:5px">
+                                    <a href="/employee?Editworklist=@item.Id">Sửa danh sách công việc</a>
+                                </div>
+                            </div>
 
                             }
                         </div>
@@ -318,31 +319,46 @@
                     }
 
                     @if (loai.Equals("?Editworklist"))
-                    {<div>
+                            { var edit_workList = Model.getById(int.Parse(id_get));
+                        <div>
                             <a href="/employee?id=@id_employee"> Back </a>
                         </div>
+
+
                         <h1> EditWorkList </h1>
-                        <input type="text" value="@id_get" />
                         <form method="post">
                             <div>
 
                                 <div>
                                     <div>
-                                        <label>Edit Work</label>
 
                                         <div>
                                             <div>
                                                 <div class="group">
                                                     <label for="WorkListName" class="label">WorkListName</label>
-                                                    <input id="Edit_WorkListName" type="text" class="input" name="Edit_WorkListName">
+                                                    <input id="Edit_WorkListName" type="text" class="input" name="Edit_WorkListName" value="@edit_workList.WorkListName">
                                                 </div>
                                                 <div class="group">
-                                                    <label for="WorkListName" class="label">WorkListName</label>
+                                                    <label for="WorkListName" class="label">WorkListstatus</label>
                                                     <input id="Edit_WorkListStatus" type="text" class="input" name="Edit_WorkListStatus">
+                                                    @if (edit_workList.IdWorkListStatus == 1)
+                                                    {
+                                                        <select id="Edit_WorkListStatus" name="Edit_WorkListStatus">
+                                                            <option value="1">Public</option>
+                                                            <option value="2">Private</option>
+                                                        </select>
+                                                    }
+                                                    @if (edit_workList.IdWorkListStatus == 2)
+                                                    {
+                                                        <select id="Edit_WorkListStatus" name="Edit_WorkListStatus">
+                                                            <option value="2">Private</option>
+                                                            <option value="1">Public</option>
+                                                        </select>
+                                                    }
                                                 </div>
                                                 <div class="group">
                                                     <label for="DateCreatedWorkList" class="label">DateCreated</label>
-                                                    <input id="Edit_DateCreatedWorkList" type="text" class="input" name="Edit_DateCreatedWorkList">
+                                                    <input id="Edit_DateCreatedWorkList" type="text" class="input" name="Edit_DateCreatedWorkList" value="@edit_workList.DateCreated">
                                                 </div>
                                                 <div class="group">
                                                     <input type="submit" name="Edit_WorkList" id="Edit_WorkList" class="button" value="Edit WorkList">
