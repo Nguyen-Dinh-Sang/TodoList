@@ -36,18 +36,18 @@ namespace PresentationLayer.Pages
             var employee = employeeService.login(user, pass);
             if (employee != null)
             {
+                HttpContext.Session.SetString("fullname", employee.FullName + "");
+                HttpContext.Session.SetString("idrole", employee.IdRole + "");
                 if (employee.IdRole == 1)
                 {
-                    HttpContext.Session.SetString("fullname", employee.FullName + "");
-                    HttpContext.Session.SetString("idrole", employee.IdRole + "");
+                    
                     Response.Redirect("/employee");
                 }
                 else
                 {
                     if (employee.IdRole == 2)
                     {
-                        HttpContext.Session.SetString("fullname", employee.FullName + "");
-                        HttpContext.Session.SetString("idrole", employee.IdRole + "");
+                        
                         Response.Redirect("/employee?id=" + employee.Id);
                     }
                     else
