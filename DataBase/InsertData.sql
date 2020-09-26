@@ -80,35 +80,35 @@ VALUES(5, 3)
 GO
 
 --Công việc
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(1, 2, N'Đi thực tập')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(1, 2, N'Sáng lên công ty ngồi chơi tới chiều về', N'Đi thực tập')
 
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(1, 1, N'Viết báo cáo')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(1, 1, N'Lấy báo cáo cũ sửa lại', N'Viết báo cáo')
 
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(1, 1, N'In báo cáo')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(1, 1, N'Gửi file ra tiệm in, nào xong người ta gọi ra lấy', N'In báo cáo')
 
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(2, 1, N'Mua trứng')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(2, 1, N'Mua 20 trứng gà', N'Mua trứng')
 
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(2, 1, N'Mua rau')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(2, 1, N'Mua cải tim với dưa leo', N'Mua rau')
 
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(2, 2, N'Mua thịt')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(2, 2, N'Mua thịt ba chỉ về kho', N'Mua thịt')
 
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(2, 3, N'Đổi nước')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(2, 3, N'Đổi nước bình 12k', N'Đổi nước')
 
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(3, 1, N'Mua mồi')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(3, 1, N'Mua trứng cút, khoai chiên, gà chiên', N'Mua mồi')
 
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(3, 1, N'Mua bia')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(3, 1, N'Mua 2 bia SaiGon Special', N'Mua bia')
 
-INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent)
-VALUES(3, 1, N'Đi đón Phong')
+INSERT INTO Work(IdWorkList, IdWorkStatus, WorkContent, WorkName)
+VALUES(3, 1, N'Ra cầu vượt rồi gọi cho Phong', N'Đi đón Phong')
 GO
 
 --Công việc và nhân viên
