@@ -111,14 +111,15 @@
                             <div style="clear:both">
                                 @foreach (var item in Model.getAllByIdEmployee())
                                 {
-                                    <div>
-                                        <a href="/employee?danhsachcongviec=@item.Id">
-                                            <div style="width:100%;height:100px; background-color:steelblue; border:5px solid red; color:black">
-                                                <div>Tên danh sách: @item.WorkListName</div>
-                                                <div>Trạng thái: @item.IdWorkListStatus</div>
-                                            </div>
+                                <div style="border: 1px solid black;padding-top:3px;height:100px; margin-top:5px">
+                                    <a href="/employee?danhsachcongviec=@item.Id">
+                                        <div style="width:80%;height:100px;  color:black; float:left">
+                                            <div>Tên danh sách: @item.WorkListName</div>
+                                            <div>Trạng thái: @item.IdWorkListStatus</div>
+                                        </div>
 
-                                        </a>
+                                    </a>
+                                    <div style="float:right; width:20%">
                                         <div style="float:left">
                                             <form method="post">
                                                 <input type="hidden" id="id_delete" name="id_delete" value="@item.Id" />
@@ -126,16 +127,17 @@
                                             </form>
                                         </div>
                                         <div style="float:left;padding-left:5px">
-                                            <a href="/employee?Editworklist=@item.Id">Sửa danh sách công việc</a>
+                                            <a href="/employee?Editworklist=@item.Id">Edit</a>
                                         </div>
-                                    </div>
 
+                                    </div>
+                                </div>
                                 }
                             </div>
                         }
                         @if (loai.Equals("?danhsachcongviec"))
                         {
-
+                            
                             <div>
                                 <a href="/employee?id=@id_employee"> Back </a>
                             </div>
@@ -148,56 +150,95 @@
                                 </div>
                             </div>
                             <div style="clear:both">
-
-
-
                                 <div>
-                                    <div style="float:left">
-                                        <div>
-                                            mới tạo
+                                    <div style="height:auto">
+                                        <div style="float:left;width:47%;height:auto">
+                                            <div>
+                                                Cần làm:
+                                            </div>
+                                            @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                            {
+                                                @if (item.IdWorkStatus == 1)
+                                                {
+                                                    <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                        <a href="/employee?congviec=@item.Id">
+                                                            <div style="width:100%;height:300px;">
+                                                                <div>@item.WorkContent</div>
+                                                                <div>@item.StartDate</div>
+                                                                <div>@item.EndDate</div>
+                                                                <div>@item.DateCreated</div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                }
+                                            }
+
                                         </div>
-                                        <div>
-                                            <a href="/employee?congviec=1">
-                                                <div style="width:100%;height:50px; background-color:steelblue">
-                                                    Công việc giám đốc xem 1.
-                                                </div>
-                                            </a>
+                                        <div style="float:right;width:47%;height:auto">
+                                            <div>
+                                                Đang làm:
+                                            </div>
+                                            @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                            {
+                                                @if (item.IdWorkStatus == 2)
+                                                {
+                                                    <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                        <a href="/employee?congviec=@item.Id">
+                                                            <div style="width:100%;height:300px;">
+                                                                <div>@item.WorkContent</div>
+                                                                <div>@item.StartDate</div>
+                                                                <div>@item.EndDate</div>
+                                                                <div>@item.DateCreated</div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                }
+                                            }
+
                                         </div>
                                     </div>
-                                    <div style="float:left">
-                                        <div>
-                                            đang làm
+                                    <div style="height:auto; clear:both">
+                                        <div style="float:left;width:47%;height:auto">
+                                            <div>
+                                                Đã làm:
+                                            </div>
+                                            @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                            {
+                                                @if (item.IdWorkStatus == 3)
+                                                {
+                                                    <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                        <a href="/employee?congviec=@item.Id">
+                                                            <div style="width:100%;height:300px;">
+                                                                <div>@item.WorkContent</div>
+                                                                <div>@item.StartDate</div>
+                                                                <div>@item.EndDate</div>
+                                                                <div>@item.DateCreated</div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                }
+                                            }
                                         </div>
-                                        <div>
-                                            <a href="/employee?congviec=2">
-                                                <div style="width:300px;height:50px; background-color:steelblue">
-                                                    Công việc giám đốc xem 2.
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div style="float:left">
-                                        <div>
-                                            đã làm
-                                        </div>
-                                        <div>
-                                            <a href="/employee?congviec=2">
-                                                <div style="width:300px;height:50px; background-color:steelblue">
-                                                    Công việc giám đốc xem 3.
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div style="float:left">
-                                        <div>
-                                            trễ hạn
-                                        </div>
-                                        <div>
-                                            <a href="/employee?congviec=2">
-                                                <div style="width:300px;height:50px; background-color:steelblue">
-                                                    Công việc giám đốc xem 4.
-                                                </div>
-                                            </a>
+                                        <div style="float:right;width:47%;height:auto">
+                                            <div>
+                                                Trễ hạn:
+                                            </div>
+                                            @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                            {
+                                                @if (item.IdWorkStatus == 4)
+                                                {
+                                                    <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                        <a href="/employee?congviec=@item.Id">
+                                                            <div style="width:100%;height:300px;">
+                                                                <div>@item.WorkContent</div>
+                                                                <div>@item.StartDate</div>
+                                                                <div>@item.EndDate</div>
+                                                                <div>@item.DateCreated</div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                }
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -209,7 +250,7 @@
 
                             <div><a href="/employee?danhsachcongviec=@id_worklist">Back</a></div>
 
-                            <div style="width:300px;height:50px; background-color:steelblue">
+                            <div style="width:300px;height:50px; border: 1px solid black">
                                 Chi tiết công việc
                             </div>
 
@@ -229,9 +270,9 @@
                             <div style="clear:both">
                                 @foreach (var item in Model.getPublicEmployee())
                                 {
-                                    <div>
+                                    <div style=" border: 1px solid black;padding-top:3px;height:100px">
                                         <a href="/employee?danhsachcongviec=@item.Id">
-                                            <div style="width:100%;height:100px; background-color:steelblue; border:5px solid red; color:black">
+                                            <div style="width:100%;height:100px;  color:black">
                                                 <div>Tên danh sách: @item.WorkListName</div>
                                                 <div>Trạng thái: @item.IdWorkListStatus</div>
                                             </div>
@@ -244,63 +285,66 @@
                         }
                         @if (loai.Equals("?danhsachcongviec"))
                         {
-
+                            
                             <div>
                                 <a href="/employee?id=@id_employee"> Back </a>
                             </div>
                             <div style="clear:both">
-
-
-
                                 <div>
-                                    <div style="float:left">
-                                        <div>
-                                            mới tạo
+                                    <div>
+                                        <div style="float:left;width:47%;height:100px">
+                                            <div>
+                                                Cần làm:
+                                            </div>
+                                            <div style="border: 1px solid black;padding-top:3px">
+                                                <a href="/employee?congviec=1">
+                                                    <div style="width:100%;height:50px;">
+                                                        Công việc giám đốc xem 1.
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <a href="/employee?congviec=1">
-                                                <div style="width:100%;height:50px; background-color:steelblue">
-                                                    Công việc giám đốc xem 1.
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div style="float:left">
-                                        <div>
-                                            đang làm
-                                        </div>
-                                        <div>
-                                            <a href="/employee?congviec=2">
-                                                <div style="width:300px;height:50px; background-color:steelblue">
-                                                    Công việc giám đốc xem 2.
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div style="float:left">
-                                        <div>
-                                            đã làm
-                                        </div>
-                                        <div>
-                                            <a href="/employee?congviec=2">
-                                                <div style="width:300px;height:50px; background-color:steelblue">
-                                                    Công việc giám đốc xem 3.
-                                                </div>
-                                            </a>
+                                        <div style="float:right;width:47%;height:100px">
+                                            <div>
+                                                Đang làm:
+                                            </div>
+                                            <div style="border: 1px solid black;padding-top:3px">
+                                                <a href="/employee?congviec=2">
+                                                    <div style="width:300px;height:50px;">
+                                                        Công việc giám đốc xem 2.
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div style="float:left">
-                                        <div>
-                                            trễ hạn
+                                    <div>
+                                        <div style="float:left;width:47%;height:100px">
+                                            <div>
+                                                Đã làm:
+                                            </div>
+                                            <div style="border: 1px solid black;padding-top:3px">
+                                                <a href="/employee?congviec=2">
+                                                    <div style="width:300px;height:50px;">
+                                                        Công việc giám đốc xem 3.
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <a href="/employee?congviec=2">
-                                                <div style="width:300px;height:50px; background-color:steelblue">
-                                                    Công việc giám đốc xem 4.
-                                                </div>
-                                            </a>
+                                        <div style="float:left;width:47%;height:100px">
+                                            <div>
+                                                Trễ hạn:
+                                            </div>
+                                            <div style="border: 1px solid black;padding-top:3px">
+                                                <a href="/employee?congviec=2">
+                                                    <div style="width:300px;height:50px;">
+                                                        Công việc giám đốc xem 4.
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
+                                    
+                                    
                                 </div>
                             </div>
 
@@ -310,7 +354,7 @@
 
                             <div><a href="/employee?danhsachcongviec=@id_worklist">Back</a></div>
 
-                            <div style="width:300px;height:50px; background-color:steelblue">
+                            <div style="width:300px;height:50px; border: 1px solid black">
                                 Chi tiết công việc
                             </div>
 

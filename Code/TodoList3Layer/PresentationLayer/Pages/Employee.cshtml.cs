@@ -19,6 +19,7 @@ namespace PresentationLayer.Pages
         private string loaisession, idsession = null;
         IEmployeeService employeeService = new EmployeeService();
         IWorkListService workListService = new WorkListService();
+        IWorkService workService = new WorkService();
         public void OnGet()
         {
             if(Request.QueryString.HasValue == true)
@@ -123,6 +124,10 @@ namespace PresentationLayer.Pages
         public IEnumerable<EmployeeDTO> getAllEmployee()
         {
             return employeeService.getAll();
+        }
+        public IEnumerable<WorkDTO> getAllByIdWorkList(string id)
+        {
+            return workService.getAllByIdWorkList(int.Parse(id));
         }
         public WorkListDTO getById(int id)
         {
