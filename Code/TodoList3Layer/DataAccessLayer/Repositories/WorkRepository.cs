@@ -21,6 +21,12 @@ namespace DataAccessLayer.Repositories
             todoListDBContext.WorkEmployee.Add(workEmployee);
             todoListDBContext.SaveChanges();
             var result = todoListDBContext.Work.Find(idWork);
+            var workList = todoListDBContext.WorkList.Find(result.IdWorkList);
+            WorkListEmployee workListEmployee = new WorkListEmployee();
+            workListEmployee.IdWorkList = workList.Id;
+            workListEmployee.IdEmployee = idEmployee;
+            todoListDBContext.WorkListEmployee.Add(workListEmployee);
+            todoListDBContext.SaveChanges();
             return result;
         }
 
