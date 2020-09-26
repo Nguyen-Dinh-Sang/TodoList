@@ -11,6 +11,7 @@ namespace BusinessLogicLayer.ViewModels
         public int? IdWorkList { get; set; }
         public int? IdWorkStatus { get; set; }
         public string WorkContent { get; set; }
+        public string WorkName { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
