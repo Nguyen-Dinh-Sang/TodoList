@@ -18,5 +18,11 @@ namespace DataAccessLayer.Interfaces
         Employee save(Employee employee);
 
         IEnumerable<Employee> getByIdWorkList(int id);
+
+        IEnumerable<Employee> getNotInWorkList(int id);
+
+        IEnumerable<Employee> getNotInWork(int id);
+
+        IEnumerable<Employee> getByIdWork(int id);
     }
 }

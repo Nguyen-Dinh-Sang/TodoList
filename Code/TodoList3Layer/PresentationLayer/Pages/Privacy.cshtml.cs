@@ -20,7 +20,7 @@ namespace PresentationLayer.Pages
             IEmployeeService employeeService = new EmployeeService();
 
             Console.WriteLine("GET ALL");
-            foreach (var item in employeeService.getByIdWorkList(2))
+            foreach (var item in employeeService.getNotInWorkList(1))
             {
                 Console.WriteLine("id = 3 " + item.FullName);
             }

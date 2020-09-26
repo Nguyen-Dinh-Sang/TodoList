@@ -27,12 +27,39 @@ namespace DataAccessLayer.Repositories
             return todoListDBContext.Employee.Find(id);
         }
 
+        public IEnumerable<Employee> getByIdWork(int id)
+        {
+            var result = from e in todoListDBContext.Employee
+                         join we in todoListDBContext.WorkEmployee on e.Id equals we.IdEmployee
+                         where we.IdWork == id
+                         select e;
+            return result;
+        }
+
         public IEnumerable<Employee> getByIdWorkList(int id)
         {
             var result = from e in todoListDBContext.Employee
                           join wle in todoListDBContext.WorkListEmployee on e.Id equals wle.IdEmployee
                           where wle.IdWorkList == id 
                          select e;
+            return result;
+        }
+
+        public IEnumerable<Employee> getNotInWork(int id)
+        {
+            var result = from e in todoListDBContext.Employee
+                         where !(from ee in getByIdWork(id)
+                                 select ee.Id).Contains(e.Id) && e.IdRole == 2
+                         select e;
+            return result;
+        }
+
+        public IEnumerable<Employee> getNotInWorkList(int id)
+        {
+            var result = from e in todoListDBContext.Employee
+                           where !(from ee in getByIdWorkList(id)
+                                   select ee.Id).Contains(e.Id) && e.IdRole == 2
+                           select e;
             return result;
         }
 
