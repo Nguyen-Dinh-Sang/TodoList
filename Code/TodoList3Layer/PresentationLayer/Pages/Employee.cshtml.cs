@@ -49,8 +49,31 @@ namespace PresentationLayer.Pages
             
         }
         public void OnPost()
+        {   if(Request.Form["danhsachcongviec_delete"].Equals("Delete"))
+            {
+                deleteWorkList();
+            }
+            if(Request.Form["Edit_WorkList"].Equals("Edit WorkList"))
+            {
+                edit_WorkList();
+            }
+            
+        }
+        public void edit_WorkList()
         {
-            deleteWorkList();  
+            WorkListDTO workListDTO = new WorkListDTO();
+            workListDTO.WorkListName = Request.Form["Edit_WorkListName"];
+            workListDTO.IdWorkListStatus = int.Parse(Request.Form["Edit_WorkListStatus"]);
+            workListDTO.DateCreated = DateTime.Parse( Request.Form["Edit_DateCreatedWorkList"]);
+            workListDTO.Id = int.Parse(Request.Form["edit_id_worklist"]);
+            int edit_id_employee = int.Parse(Request.Form["edit_id_employee"]);
+            workListService.save(workListDTO, edit_id_employee);
+            Console.WriteLine("worklistname :" + workListDTO.WorkListName);
+            Console.WriteLine("idworkliststatus :" + workListDTO.IdWorkListStatus);
+            Console.WriteLine("DateCreated :" + workListDTO.DateCreated);
+            Console.WriteLine("id worklist :" + workListDTO.Id);
+            Console.WriteLine("id employee :" + edit_id_employee);
+            Response.Redirect("/employee?id=" + getid_employee());
         }
         public void deleteWorkList()
         {
@@ -85,9 +108,17 @@ namespace PresentationLayer.Pages
         {
             return HttpContext.Session.GetString("idrole");
         }
+        public string getSessionIdEmployee()
+        {
+            return HttpContext.Session.GetString("idemployee");
+        }
         public IEnumerable<WorkListDTO> getAllByIdEmployee()
         {
             return workListService.getAllByIdEmployee(int.Parse(HttpContext.Session.GetString("id")));
+        }
+        public IEnumerable<WorkListDTO> getPublicEmployee()
+        {
+            return workListService.getPublicByIdEmployee(int.Parse(HttpContext.Session.GetString("id")));
         }
         public IEnumerable<EmployeeDTO> getAllEmployee()
         {

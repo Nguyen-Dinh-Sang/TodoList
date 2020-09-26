@@ -38,6 +38,7 @@ namespace PresentationLayer.Pages
             {
                 HttpContext.Session.SetString("fullname", employee.FullName + "");
                 HttpContext.Session.SetString("idrole", employee.IdRole + "");
+                HttpContext.Session.SetString("idemployee", employee.Id + "");
                 if (employee.IdRole == 1)
                 {
                     
