@@ -70,9 +70,9 @@ namespace DataAccessLayer.Repositories
             } else
             {
                 var result = todoListDBContext.Work.Find(work.Id);
-                result.IdWorkList = work.IdWorkList;
                 result.IdWorkStatus = work.IdWorkStatus;
                 result.WorkContent = work.WorkContent;
+                result.WorkName = work.WorkName;
                 result.StartDate = work.StartDate;
                 result.EndDate = work.EndDate;
                 todoListDBContext.SaveChanges();
