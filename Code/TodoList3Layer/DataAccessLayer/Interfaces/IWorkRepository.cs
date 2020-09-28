@@ -16,5 +16,7 @@ namespace DataAccessLayer.Interfaces
         IEnumerable<Work> getAllByIdWorkList(int id);
 
         Work addEmployee(int idEmployee, int idWork);
+
+        Work editStatus(int idWork, int idStatus);
     }
 }
