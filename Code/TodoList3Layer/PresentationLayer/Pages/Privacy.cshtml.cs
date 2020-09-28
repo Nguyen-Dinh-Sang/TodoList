@@ -20,11 +20,7 @@ namespace PresentationLayer.Pages
             _logger = logger;
 
             IWorkService workService = new WorkService();
-            WorkDTO work = new WorkDTO();
-            work.Id = 0;
-            work.IdWorkList = 1;
-            work.WorkContent = "mưới tạo";
-            workService.save(work, 3);
+            workService.addEmployee(5, 1);
         }
 
         public void OnGet()
