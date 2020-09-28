@@ -87,36 +87,38 @@ namespace PresentationLayer.Pages
             }
             if (String.Compare(Request.Form["submit_editstatus"], "Cần làm") == 0)
             {
-                Console.WriteLine("chay toi day 1");
+                edit_StatusWork();
 
             }
 
             if (String.Compare(Request.Form["submit_editstatus"], "Đang làm") == 0)
             {
                 Console.WriteLine("chay toi day 2");
+                edit_StatusWork();
 
             }
             if (String.Compare(Request.Form["submit_editstatus"], "Đã làm") == 0)
             {
                 Console.WriteLine("chay toi day 3");
+                edit_StatusWork();
 
             }
             if (String.Compare(Request.Form["submit_editstatus"], "Trễ hạn") == 0)
             {
                 Console.WriteLine("chay toi day 4");
+                edit_StatusWork();
 
             }
         }
         public void edit_StatusWork()
         {
-            WorkDTO workDTO = new WorkDTO();
-            workDTO.IdWorkStatus = int.Parse(Request.Form["editstatus_id"]);
-            workDTO.Id = int.Parse(Request.Form["editstatus_idwork"]);
+           
+            int IdWorkStatus = int.Parse(Request.Form["editstatus_id"]);
+            int IdWork = int.Parse(Request.Form["editstatus_idwork"]);
             int id_employee = int.Parse(getid_employee());
-            workService.save(workDTO, id_employee);
-            Response.Redirect("/employee?congviec=" + workDTO.Id);
-            Console.WriteLine(workDTO.IdWorkStatus);
-            Console.WriteLine(workDTO.Id);
+            workService.editStatus(IdWork,IdWorkStatus);
+            Response.Redirect("/employee?congviec=" + IdWork);
+            
         }
        
         public void add_work()
