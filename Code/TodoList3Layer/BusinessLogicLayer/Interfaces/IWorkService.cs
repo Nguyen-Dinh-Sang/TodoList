@@ -16,5 +16,7 @@ namespace BusinessLogicLayer.Interfaces
         IEnumerable<WorkDTO> getAllByIdWorkList(int id);
 
         WorkDTO addEmployee(int idEmployee, int idWork);
+
+        WorkDTO editStatus(int idWork, int idStatus);
     }
 }

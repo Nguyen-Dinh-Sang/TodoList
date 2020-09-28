@@ -30,6 +30,14 @@ namespace DataAccessLayer.Repositories
             return result;
         }
 
+        public Work editStatus(int idWork, int idStatus)
+        {
+            var result = todoListDBContext.Work.Find(idWork);
+            result.IdWorkStatus = idStatus;
+            todoListDBContext.SaveChanges();
+            return todoListDBContext.Work.Find(idWork);
+        }
+
         public IEnumerable<Work> getAllByIdWorkList(int id)
         {
             var result = from w in todoListDBContext.Work

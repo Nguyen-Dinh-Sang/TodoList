@@ -21,6 +21,11 @@ namespace BusinessLogicLayer.Services
             return mapper.Map<Work, WorkDTO>(workRepository.addEmployee(idEmployee, idWork));
         }
 
+        public WorkDTO editStatus(int idWork, int idStatus)
+        {
+            return mapper.Map<Work, WorkDTO>(workRepository.editStatus(idWork, idStatus));
+        }
+
         public IEnumerable<WorkDTO> getAllByIdWorkList(int id)
         {
             return mapper.Map<IEnumerable<Work>, IEnumerable<WorkDTO>>(workRepository.getAllByIdWorkList(id));
