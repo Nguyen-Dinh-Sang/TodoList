@@ -14,20 +14,26 @@ namespace PresentationLayer.Pages
     public class LoginModel : PageModel
     {
         IEmployeeService employeeService = new EmployeeService();
+        string login;
         public void OnGet()
         {
         }
-        public void OnPost()
+        public JsonResult OnPost()
         {   
             if(Request.Form["login_submit"].Equals("Sign In"))
             {
-                signIn();  
+                signIn();
+               
             }
             else
             {
                 signUp();
-            }        
+            }
+            return new JsonResult("oke");
         }
+
+        
+
         public void signIn()
         {
 
@@ -41,7 +47,6 @@ namespace PresentationLayer.Pages
                 HttpContext.Session.SetString("idemployee", employee.Id + "");
                 if (employee.IdRole == 1)
                 {
-                    
                     Response.Redirect("/employee");
                 }
                 else

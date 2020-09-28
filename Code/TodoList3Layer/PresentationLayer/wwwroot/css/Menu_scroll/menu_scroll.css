@@ -10,7 +10,7 @@
 
 
 #wrapper {
-    padding-left: 250px;
+  
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -24,10 +24,10 @@
 
 #sidebar-wrapper {
     position: fixed;
-    left: 250px;
+    
     width: 250px;
     height: 86.5%;
-    margin-left: -250px;
+    float:left;
     overflow-y: scroll;
     overflow-x: hidden;
     background: #000;

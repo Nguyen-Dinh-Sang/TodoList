@@ -21,7 +21,8 @@
     <link rel="stylesheet" type="text/css" href="~/css/Menu_scroll/menu_scroll.css" />
     <link rel="stylesheet" type="text/css" href="~/css/Opennav/Opennav.css" />
     <link rel="stylesheet" href="~/css/Login_css.css" />
-
+    <link rel="stylesheet" href="~/css/Employee/Employee.css" />
+    <script src="~/js/Employee_js/Employee.js"></script>
     <body style="background-color:white">
 
 
@@ -48,433 +49,789 @@
                     </ul>
                 </div>
 
-                <!-- /#sidebar-wrapper -->
-                <!-- Page Content -->
-                @*<div id="page-content-wrapper">
-        <div style="float:right">
-            <button id="menu-toggle" class="btn btn-secondary">
-                <i id="toggleIcon" class="fa fa-angle-double-down"></i> Toggle Menu <i class="fa fa-filter"></i>
-            </button>
-        </div>*@
+
+                <div style="float:left;clear:both;margin-left:260px;width:80%;height:100%">
+
+                    @if (@Request.QueryString.HasValue == true)
+                    {
+
+                        var get = Request.QueryString.Value.Split('=');
+                        string loai = get[0];
+                        string id_get = get[1];
+                        string id_role = Model.getSessionIdrole();
+                        string id_employee = Model.getid_employee();
+                        string id_worklist = Model.getid_worklist();
+                        string id_work = Model.getid_work();
+                        @if (id_role.Equals("1") || id_role.Equals("2") && id_employee.Equals(Model.getSessionIdEmployee()) == true)
+                        {
+                            @if (loai.Equals("?id") == true)
+                            {
+                                <div style="background-color:yellow">
+                                    <div style="float:left">
+                                        <a href="/employee?Addworklist=@id_get">Thêm danh sách công việc</a>
+                                    </div>
+
+                                </div>
+                                <div style="clear:both;">
+                                    @foreach (var item in Model.getAllByIdEmployee())
+                                    {
+                                        <div style="border: 1px solid black;padding-top:3px;height:100px; margin-top:5px">
+                                            <a href="/employee?danhsachcongviec=@item.Id">
+                                                <div style="width:80%;height:100px;  color:black; float:left">
+                                                    <div>Tên danh sách: @item.WorkListName</div>
+                                                    <div>Trạng thái: @item.IdWorkListStatus</div>
+                                                </div>
+
+                                            </a>
+                                            <div style="float:right; width:20%">
+                                                <div style="float:left">
+                                                    <form method="post" name="delete_dscongviec">
+                                                        <input type="hidden" id="id_delete" name="id_delete" value="@item.Id" />
+                                                        <input type="submit" onclick=" return confirm('Bạn có thật sự muốn xóa danh sách @item.WorkListName không ?')" id="danhsachcongviec_delete" name="danhsachcongviec_delete" value="Delete" />
+                                                    </form>
+                                                </div>
+                                                <div style="float:left;padding-left:5px">
+                                                    <a href="/employee?Editworklist=@item.Id">Edit</a>
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            @if (loai.Equals("?danhsachcongviec"))
+                            {
+
+                                <div>
+                                    <a href="/employee?id=@id_employee"> Back </a>
+                                </div>
+                                <div style="background-color:yellow">
+                                    <div style="float:left">
+                                        <a href="/employee?Addwork=@id_get">Thêm công việc</a>
+                                    </div>
+                                    <div style="float:left;padding-left:5px;margin-left:5px">
+                                        <a href="/employee?Editwork=@id_get">Sửa công việc</a>
+                                    </div>
+                                    <div style="float:left;padding-left:5px;margin-left:5px">
+                                        <button onclick="openNav()">Add employee</button>
+                                    </div>
+                                </div>
+                                <div style="clear:both">
+                                    <div>
+                                        <div style="height:auto">
+                                            <div style="float:left;width:47%;height:auto">
+                                                <div>
+                                                    Cần làm:
+                                                </div>
+                                                @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                                {
+                                                    DateTime day = DateTime.Parse("" + item.StartDate);
+                                                    string dayOfWeek = day.DayOfWeek + "";
+                                                    @if (item.IdWorkStatus == 1)
+                                                    {
+                                                        <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                            <a href="/employee?congviec=@item.Id">
+                                                                <div style="width:100%;height:300px;">
+                                                                    <div>Tên công việc : @item.WorkName</div>
+                                                                    <div>Ngày bắt đầu : @item.StartDate</div>
+                                                                    <div>Ngày kết thúc:@item.EndDate</div>
+                                                                    <div>Ngày tạo : @item.DateCreated</div>
+                                                                    <div>Thứ : @dayOfWeek</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+
+                                            </div>
+                                            <div style="float:right;width:47%;height:auto">
+                                                <div>
+                                                    Đang làm:
+                                                </div>
+                                                @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                                {
+                                                    DateTime day = DateTime.Parse("" + item.StartDate);
+                                                    string dayOfWeek = day.DayOfWeek + "";
+                                                    @if (item.IdWorkStatus == 2)
+                                                    {
+                                                        <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                            <a href="/employee?congviec=@item.Id">
+                                                                <div style="width:100%;height:300px;">
+                                                                    <div>Tên công việc : @item.WorkName</div>
+                                                                    <div>Ngày bắt đầu : @item.StartDate</div>
+                                                                    <div>Ngày kết thúc:@item.EndDate</div>
+                                                                    <div>Ngày tạo : @item.DateCreated</div>
+                                                                    <div>Thứ : @dayOfWeek</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+                                        <div style="height:auto; clear:both">
+                                            <div style="float:left;width:47%;height:auto">
+                                                <div>
+                                                    Đã làm:
+                                                </div>
+                                                @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                                {
+                                                    DateTime day = DateTime.Parse("" + item.StartDate);
+                                                    string dayOfWeek = day.DayOfWeek + "";
+                                                    @if (item.IdWorkStatus == 3)
+                                                    {
+                                                        <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                            <a href="/employee?congviec=@item.Id">
+                                                                <div style="width:100%;height:300px;">
+                                                                    <div>Tên công việc : @item.WorkName</div>
+                                                                    <div>Ngày bắt đầu : @item.StartDate</div>
+                                                                    <div>Ngày kết thúc:@item.EndDate</div>
+                                                                    <div>Ngày tạo : @item.DateCreated</div>
+                                                                    <div>Thứ : @dayOfWeek</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                            <div style="float:right;width:47%;height:auto">
+                                                <div>
+                                                    Trễ hạn:
+                                                </div>
+                                                @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                                {
+                                                    DateTime day = DateTime.Parse("" + item.StartDate);
+                                                    string dayOfWeek = day.DayOfWeek + "";
+                                                    @if (item.IdWorkStatus == 4)
+                                                    {
+                                                        <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                            <a href="/employee?congviec=@item.Id">
+                                                                <div style="width:100%;height:300px;">
+                                                                    <div>Tên công việc : @item.WorkName</div>
+                                                                    <div>Ngày bắt đầu : @item.StartDate</div>
+                                                                    <div>Ngày kết thúc:@item.EndDate</div>
+                                                                    <div>Ngày tạo : @item.DateCreated</div>
+                                                                    <div>Thứ : @dayOfWeek</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            @if (loai.Equals("?congviec"))
+                            {
+                                var congviec = Model.getWorkById(int.Parse(id_get));
+                                DateTime day = DateTime.Parse("" + congviec.StartDate);
+                                string dayOfWeek = day.DayOfWeek + "";
+                                <div><a href="/employee?danhsachcongviec=@id_worklist">Back</a></div>
+
+
+                                <div style="width:80%;height:300px; text-align:left; border: 1px solid black">
+                                    <h2>Chi tiết công việc:</h2>
+                                    <div style="margin-top:5px">
+                                        <div style="float:left;width:20%">Tên công việc :</div>
+                                        <div style="float:left">@congviec.WorkName</div>
+                                    </div>
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Nội dung công việc :</div>
+                                        <div style="float:left">@congviec.WorkContent</div>
+                                    </div>
+                                    @if (congviec.IdWorkStatus == 1)
+                                    {
+                                        <div style="margin:top:5px;clear:both">
+                                            <div style="float:left;width:20%;margin-top:5px">
+                                                Trạng thái:
+                                            </div>
+                                            <div style="float:left;margin-top:5px">
+                                                Cần làm
+                                            </div>
+                                            <div style="clear:both">
+                                                <div style="float:left;margin-top:5px;width:20%">Thay đổi trạng thái:</div>
+                                                <div style="float:left;margin-top:5px">
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="2" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="3" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="4" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (congviec.IdWorkStatus == 2)
+                                    {
+                                        <div style="margin:top:5px">
+                                            <div style="float:left;width:20%;margin-top:5px">
+                                                Trạng thái:
+                                            </div>
+                                            <div style="float:left;margin-top:5px">
+                                                Cần làm
+                                            </div>
+                                            <div style="clear:both">
+                                                <div style="float:left;margin-top:5px;width:20%">Thay đổi trạng thái:</div>
+                                                <div style="float:left;margin-top:5px">
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="1" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Cần làm" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="3" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="4" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (congviec.IdWorkStatus == 3)
+                                    {
+                                        <div style="margin:top:5px">
+                                            <div style="float:left;width:20%;margin-top:5px">
+                                                Trạng thái:
+                                            </div>
+                                            <div style="float:left;margin-top:5px">
+                                                Cần làm
+                                            </div>
+                                            <div style="clear:both">
+                                                <div style="float:left;margin-top:5px;width:20%">Thay đổi trạng thái:</div>
+                                                <div style="float:left;margin-top:5px">
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="1" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Cần làm" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="2" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="4" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (congviec.IdWorkStatus == 4)
+                                    {
+                                        <div style="margin:top:5px">
+                                            <div style="float:left;width:20%;margin-top:5px">
+                                                Trạng thái:
+                                            </div>
+                                            <div style="float:left;margin-top:5px">
+                                                Cần làm
+                                            </div>
+                                            <div style="clear:both">
+                                                <div style="float:left;margin-top:5px;width:20%">Thay đổi trạng thái:</div>
+                                                <div style="float:left;margin-top:5px">
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="1" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Cần làm" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="2" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                    <div style="float:left;margin-left:10px">
+                                                        <form method="post">
+                                                            <input type="hidden" value="3" id="editstatus_id" name="editstatus_id" />
+                                                            <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                                            <input type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Ngày bắt đầu :</div>
+                                        <div style="float:left">@congviec.StartDate</div>
+                                    </div>
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Ngày kết thúc :</div>
+                                        <div style="float:left">@congviec.EndDate</div>
+                                    </div>
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Ngày tạo :</div>
+                                        <div style="float:left">@congviec.DateCreated</div>
+                                    </div>
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Thứ :</div>
+                                        <div style="float:left">@dayOfWeek</div>
+                                    </div>
+                                </div>
+
+
+
+                            }
+
+                        }
+                        @if (id_role.Equals("2") && id_employee.Equals(Model.getSessionIdEmployee()) == false)
+                        {
+                            @if (loai.Equals("?id") == true)
+                            {
+                                <div style="background-color:yellow">
+                                    <div style="float:left">
+                                        <a href="/employee?Addworklist=@id_get">Thêm danh sách công việc</a>
+                                    </div>
+
+                                </div>
+                                <div style="clear:both">
+                                    @foreach (var item in Model.getPublicEmployee())
+                                    {
+                                        <div style=" border: 1px solid black;padding-top:3px;height:100px">
+                                            <a href="/employee?danhsachcongviec=@item.Id">
+                                                <div style="width:100%;height:100px;  color:black">
+                                                    <div>Tên danh sách: @item.WorkListName</div>
+                                                    <div>Trạng thái: @item.IdWorkListStatus</div>
+                                                </div>
+
+                                            </a>
+                                        </div>
+
+                                    }
+                                </div>
+                            }
+                            @if (loai.Equals("?danhsachcongviec"))
+                            {<div>
+                                    <a href="/employee?id=@id_employee"> Back </a>
+                                </div>
+                                <div style="background-color:yellow">
+                                    <div style="float:left">
+                                        <a href="/employee?Addwork=@id_get">Thêm công việc</a>
+                                    </div>
+                                    <div style="float:left;padding-left:5px">
+                                        <a href="/employee?Editwork=@id_get">Sửa công việc</a>
+                                    </div>
+                                </div>
+                                <div style="clear:both">
+                                    <div>
+                                        <div style="height:auto">
+                                            <div style="float:left;width:47%;height:auto">
+                                                <div>
+                                                    Cần làm:
+                                                </div>
+                                                @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                                {
+                                                    DateTime day = DateTime.Parse("" + item.StartDate);
+                                                    string dayOfWeek = day.DayOfWeek + "";
+                                                    @if (item.IdWorkStatus == 1)
+                                                    {
+                                                        <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                            <a href="/employee?congviec=@item.Id">
+                                                                <div style="width:100%;height:300px;">
+                                                                    <div>Tên công việc : @item.WorkName</div>
+                                                                    <div>Ngày bắt đầu : @item.StartDate</div>
+                                                                    <div>Ngày kết thúc:@item.EndDate</div>
+                                                                    <div>Ngày tạo : @item.DateCreated</div>
+                                                                    <div>Thứ : @dayOfWeek</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+
+                                            </div>
+                                            <div style="float:right;width:47%;height:auto">
+                                                <div>
+                                                    Đang làm:
+                                                </div>
+                                                @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                                {
+                                                    DateTime day = DateTime.Parse("" + item.StartDate);
+                                                    string dayOfWeek = day.DayOfWeek + "";
+                                                    @if (item.IdWorkStatus == 2)
+                                                    {
+                                                        <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                            <a href="/employee?congviec=@item.Id">
+                                                                <div style="width:100%;height:300px;">
+                                                                    <div>Tên công việc : @item.WorkName</div>
+                                                                    <div>Ngày bắt đầu : @item.StartDate</div>
+                                                                    <div>Ngày kết thúc:@item.EndDate</div>
+                                                                    <div>Ngày tạo : @item.DateCreated</div>
+                                                                    <div>Thứ : @dayOfWeek</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+                                        <div style="height:auto; clear:both">
+                                            <div style="float:left;width:47%;height:auto">
+                                                <div>
+                                                    Đã làm:
+                                                </div>
+                                                @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                                {
+                                                    DateTime day = DateTime.Parse("" + item.StartDate);
+                                                    string dayOfWeek = day.DayOfWeek + "";
+                                                    @if (item.IdWorkStatus == 3)
+                                                    {
+                                                        <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                            <a href="/employee?congviec=@item.Id">
+                                                                <div style="width:100%;height:300px;">
+                                                                    <div>Tên công việc : @item.WorkName</div>
+                                                                    <div>Ngày bắt đầu : @item.StartDate</div>
+                                                                    <div>Ngày kết thúc:@item.EndDate</div>
+                                                                    <div>Ngày tạo : @item.DateCreated</div>
+                                                                    <div>Thứ : @dayOfWeek</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                            <div style="float:right;width:47%;height:auto">
+                                                <div>
+                                                    Trễ hạn:
+                                                </div>
+                                                @foreach (var item in Model.getAllByIdWorkList(id_get))
+                                                {
+                                                    DateTime day = DateTime.Parse("" + item.StartDate);
+                                                    string dayOfWeek = day.DayOfWeek + "";
+                                                    @if (item.IdWorkStatus == 4)
+                                                    {
+                                                        <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
+                                                            <a href="/employee?congviec=@item.Id">
+                                                                <div style="width:100%;height:300px;">
+                                                                    <div>Tên công việc : @item.WorkName</div>
+                                                                    <div>Ngày bắt đầu : @item.StartDate</div>
+                                                                    <div>Ngày kết thúc:@item.EndDate</div>
+                                                                    <div>Ngày tạo : @item.DateCreated</div>
+                                                                    <div>Thứ : @dayOfWeek</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            @if (loai.Equals("?congviec"))
+                            {
+                                var congviec = Model.getWorkById(int.Parse(id_get));
+                                DateTime day = DateTime.Parse("" + congviec.StartDate);
+                                string dayOfWeek = day.DayOfWeek + "";
+                                <div><a href="/employee?danhsachcongviec=@id_worklist">Back</a></div>
+
+
+                                <div style="width:80%;height:300px; text-align:left; border: 1px solid black">
+                                    <h2>Chi tiết công việc:</h2>
+                                    <div style="margin-top:5px">
+                                        <div style="float:left;width:20%">Tên công việc :</div>
+                                        <div style="float:left">@congviec.WorkName</div>
+                                    </div>
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Nội dung công việc :</div>
+                                        <div style="float:left">@congviec.WorkContent</div>
+                                    </div>
+                                    @if (congviec.IdWorkStatus == 1)
+                                    {
+                                        <div style="margin:top:5px;clear:both">
+                                            <div style="float:left;width:20%;margin-top:5px">
+                                                Trạng thái:
+                                            </div>
+                                            <div style="float:left;margin-top:5px">
+                                                Cần làm
+                                            </div>
+                                            
+                                        </div>
+                                    }
+                                    @if (congviec.IdWorkStatus == 2)
+                                    {
+                                        <div style="margin:top:5px">
+                                            <div style="float:left;width:20%;margin-top:5px">
+                                                Trạng thái:
+                                            </div>
+                                            <div style="float:left;margin-top:5px">
+                                                Đang làm
+                                            </div>
+                                            
+                                        </div>
+                                    }
+                                    @if (congviec.IdWorkStatus == 3)
+                                    {
+                                        <div style="margin:top:5px">
+                                            <div style="float:left;width:20%;margin-top:5px">
+                                                Trạng thái:
+                                            </div>
+                                            <div style="float:left;margin-top:5px">
+                                                Đã làm
+                                            </div>
+                                            
+                                        </div>
+                                    }
+                                    @if (congviec.IdWorkStatus == 4)
+                                    {
+                                        <div style="margin:top:5px">
+                                            <div style="float:left;width:20%;margin-top:5px">
+                                                Trạng thái:
+                                            </div>
+                                            <div style="float:left;margin-top:5px">
+                                                Trễ hạn
+                                            </div>
+                                            
+                                        </div>
+                                    }
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Ngày bắt đầu :</div>
+                                        <div style="float:left">@congviec.StartDate</div>
+                                    </div>
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Ngày kết thúc :</div>
+                                        <div style="float:left">@congviec.EndDate</div>
+                                    </div>
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Ngày tạo :</div>
+                                        <div style="float:left">@congviec.DateCreated</div>
+                                    </div>
+                                    <div style="margin-top:5px;clear:both">
+                                        <div style="float:left;width:20%">Thứ :</div>
+                                        <div style="float:left">@dayOfWeek</div>
+                                    </div>
+                                </div>
+
+
+
+                            }
+
+                        }
 
 
 
 
-                @*<form method="post">
-            <div class="login-wrap">
-                <div class="login-html">
 
-                    <div class="login-form">
-                        <div class="sign-up-htm">
-                            <div class="group">
-                                <label for="WorkListName" class="label">WorkListName</label>
-                                <input id="Edit_WorkListName" type="text" class="input" name="Edit_WorkListName">
+
+                        @if (loai.Equals("?Addworklist"))
+                        {
+                            <div>
+                                <a href="/employee?id=@id_employee"> Back </a>
                             </div>
-                            <div class="group">
-                                <label for="WorkListName" class="label">WorkListName</label>
-                                <input id="Edit_WorkListStatus" type="text" class="input" name="Edit_WorkListStatus">
+                            <h1> AddWorkList</h1>
+                            <form method="post">
+                                <div>
+                                    <div>
+                                        <div>
+
+                                            <div>
+                                                <div>
+
+                                                    <div class="group">
+                                                        <label for="WorkListName" class="label">WorkListName</label>
+                                                        <input id="Add_WorkListName" type="text" class="input" name="Add_WorkListName">
+                                                    </div>
+                                                    <div class="group">
+                                                        <div><label for="WorkListStatus" class="label">WorkListStatus</label></div>
+                                                        <div>
+                                                            <select id="Add_WorkListStatus" name="Add_WorkListStatus">
+                                                                <option value="1">Public</option>
+                                                                <option value="2">Private</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="group">
+                                                        <label><input type="hidden" id="add_id_employee" name="add_id_employee" value="@id_employee" /></label>
+                                                        <input type="submit" name="Add_WorkList" id="Add_WorkList" class="button" value="Add WorkList">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        }
+
+                        @if (loai.Equals("?Editworklist"))
+                        {
+                            var edit_workList = Model.getById(int.Parse(id_get));
+                            <div>
+                                <a href="/employee?id=@id_employee"> Back </a>
                             </div>
-                            <div class="group">
-                                <label for="DateCreatedWorkList" class="label">DateCreated</label>
-                                <input id="Edit_DateCreatedWorkList" type="text" class="input" name="Edit_DateCreatedWorkList">
-                            </div>
-                            <div class="group">
-                                <input type="submit" name="Add_WorkList" id="Add_WorkList" class="button" value="Add WorkList">
-                            </div>
+
+
+                            <h1> EditWorkList </h1>
+                            <form method="post">
+                                <div>
+
+                                    <div>
+                                        <div>
+
+                                            <div>
+                                                <div>
+                                                    <div class="group">
+                                                        <label for="WorkListName" class="label">WorkListName</label>
+                                                        <input id="Edit_WorkListName" type="text" class="input" name="Edit_WorkListName" value="@edit_workList.WorkListName">
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="WorkListName" class="label">WorkListstatus</label>
+
+                                                        @if (edit_workList.IdWorkListStatus == 1)
+                                                        {
+                                                            <select id="Edit_WorkListStatus" name="Edit_WorkListStatus">
+                                                                <option value="1">Public</option>
+                                                                <option value="2">Private</option>
+                                                            </select>
+                                                        }
+                                                        @if (edit_workList.IdWorkListStatus == 2)
+                                                        {
+                                                            <select id="Edit_WorkListStatus" name="Edit_WorkListStatus">
+                                                                <option value="2">Private</option>
+                                                                <option value="1">Public</option>
+                                                            </select>
+                                                        }
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="DateCreatedWorkList" class="label">DateCreated</label>
+                                                        <input id="Edit_DateCreatedWorkList" type="text" class="input" name="Edit_DateCreatedWorkList" value="@edit_workList.DateCreated">
+                                                    </div>
+                                                    <label><input type="hidden" id="edit_id_worklist" name="edit_id_worklist" value="@edit_workList.Id" /></label>
+                                                    <label><input type="hidden" id="edit_id_employee" name="edit_id_employee" value="@id_employee" /></label>
+                                                    <div class="group">
+                                                        <input type="submit" name="Edit_WorkList" id="Edit_WorkList" class="button" value="Edit WorkList">
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        }
+                        @if (loai.Equals("?Addwork"))
+                        {
+                            <form method="post">
+                                <div>
+                                    <div>
+                                        <div>
+
+                                            <div>
+                                                <div>
+                                                    @*public int? IdWorkList { get; set; }
+                                        public int? IdWorkStatus { get; set; }
+                                        public string WorkContent { get; set; }
+                                        public string WorkName { get; set; }
+                                        public DateTime? DateCreated { get; set; }
+                                        public DateTime? StartDate { get; set; }
+                                        public DateTime? EndDate { get; set; }*@
+                                                    <div class="group">
+                                                        <label for="WorkName" class="label">WorkName</label>
+                                                        <input id="Add_WorkName" type="text" class="input" name="Add_WorkName">
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="WorkContent" class="label">WorkContent</label>
+                                                        <input id="Add_WorkContent" type="text" class="input" name="Add_WorkContent">
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="WorkStartDate" class="label">StartDate</label>
+                                                        <input id="Add_WorkStartDate" type="text" class="input" name="Add_WorkStartDate">
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="WorkEndDate" class="label">EndDate</label>
+                                                        <input id="Add_WorkEndDate" type="text" class="input" name="Add_WorkEndDate">
+                                                    </div>
+
+                                                    <div class="group">
+                                                        <label><input type="hidden" id="addwork_id_worklist" name="addwork_id_worklist" value="@id_worklist" /></label>
+                                                        <label><input type="hidden" id="addwork_id_employee" name="addwork_id_employee" value="@id_employee" /></label>
+                                                        <input type="submit" name="Add_Work" id="Add_Work" class="button" value="Add Work">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        }
+                        <div id="mySidenav" class="sidenav">
+                            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                            <table style="border:1px solid black;width:80%;text-align:center">
+                                <tr style="border:1px solid black">
+                                    <th style="text-align:center; border:1px solid black;width:80%">Tên Nhân Viên</th>
+                                    <th style="text-align:center; border:1px solid black;width:20%">Chọn</th>
+                                </tr>
+                                @foreach (var item in Model.getAllEmployee())
+                                {
+                                    <tr style="border:1px solid black">
+                                        <td style="text-align:center; border:1px solid black;width:80%">@item.FullName</td>
+                                        <td style="text-align:center; border:1px solid black;width:20%">
+                                            <div>
+                                                <form method="post">
+                                                    <input type="hidden" id="id_add_1_employee" name="id_add_1_employee" value="@item.Id" />
+                                                    <input type="hidden" id="id_add_1_worklist" name="id_add_1_worklist" value="@id_worklist" />
+                                                    <input class="button" type="submit" id="submit_add_1_employee" name="submit_add_1_employee" value="Add" />
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
                         </div>
-                        </div>
-                    </div>
+
+
+                    }
+
                 </div>
-        </form>*@
-            <div class="container-fluid" style="float:left;clear:both">
-
-                @if (@Request.QueryString.HasValue == true)
-                {
-
-                    var get = Request.QueryString.Value.Split('=');
-                    string loai = get[0];
-                    string id_get = get[1];
-                    string id_role = Model.getSessionIdrole();
-                    string id_employee = Model.getid_employee();
-                    string id_worklist = Model.getid_worklist();
-                    string id_work = Model.getid_work();
-                    @if (id_role.Equals("1") || id_role.Equals("2") && id_employee.Equals(Model.getSessionIdEmployee()) == true)
-                    {
-                        @if (loai.Equals("?id") == true)
-                        {
-                            <div style="background-color:yellow">
-                                <div style="float:left">
-                                    <a href="/employee?Addworklist=@id_get">Thêm danh sách công việc</a>
-                                </div>
-
-                            </div>
-                            <div style="clear:both">
-                                @foreach (var item in Model.getAllByIdEmployee())
-                                {
-                                <div style="border: 1px solid black;padding-top:3px;height:100px; margin-top:5px">
-                                    <a href="/employee?danhsachcongviec=@item.Id">
-                                        <div style="width:80%;height:100px;  color:black; float:left">
-                                            <div>Tên danh sách: @item.WorkListName</div>
-                                            <div>Trạng thái: @item.IdWorkListStatus</div>
-                                        </div>
-
-                                    </a>
-                                    <div style="float:right; width:20%">
-                                        <div style="float:left">
-                                            <form method="post">
-                                                <input type="hidden" id="id_delete" name="id_delete" value="@item.Id" />
-                                                <input type="submit" id="danhsachcongviec_delete" name="danhsachcongviec_delete" value="Delete" />
-                                            </form>
-                                        </div>
-                                        <div style="float:left;padding-left:5px">
-                                            <a href="/employee?Editworklist=@item.Id">Edit</a>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                }
-                            </div>
-                        }
-                        @if (loai.Equals("?danhsachcongviec"))
-                        {
-                            
-                            <div>
-                                <a href="/employee?id=@id_employee"> Back </a>
-                            </div>
-                            <div style="background-color:yellow">
-                                <div style="float:left">
-                                    <a href="/employee?Addwork=@id_get">Thêm công việc</a>
-                                </div>
-                                <div style="float:left;padding-left:5px">
-                                    <a href="/employee?Editwork=@id_get">Sửa công việc</a>
-                                </div>
-                            </div>
-                            <div style="clear:both">
-                                <div>
-                                    <div style="height:auto">
-                                        <div style="float:left;width:47%;height:auto">
-                                            <div>
-                                                Cần làm:
-                                            </div>
-                                            @foreach (var item in Model.getAllByIdWorkList(id_get))
-                                            {
-                                                @if (item.IdWorkStatus == 1)
-                                                {
-                                                    <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
-                                                        <a href="/employee?congviec=@item.Id">
-                                                            <div style="width:100%;height:300px;">
-                                                                <div>@item.WorkContent</div>
-                                                                <div>@item.StartDate</div>
-                                                                <div>@item.EndDate</div>
-                                                                <div>@item.DateCreated</div>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                }
-                                            }
-
-                                        </div>
-                                        <div style="float:right;width:47%;height:auto">
-                                            <div>
-                                                Đang làm:
-                                            </div>
-                                            @foreach (var item in Model.getAllByIdWorkList(id_get))
-                                            {
-                                                @if (item.IdWorkStatus == 2)
-                                                {
-                                                    <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
-                                                        <a href="/employee?congviec=@item.Id">
-                                                            <div style="width:100%;height:300px;">
-                                                                <div>@item.WorkContent</div>
-                                                                <div>@item.StartDate</div>
-                                                                <div>@item.EndDate</div>
-                                                                <div>@item.DateCreated</div>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                }
-                                            }
-
-                                        </div>
-                                    </div>
-                                    <div style="height:auto; clear:both">
-                                        <div style="float:left;width:47%;height:auto">
-                                            <div>
-                                                Đã làm:
-                                            </div>
-                                            @foreach (var item in Model.getAllByIdWorkList(id_get))
-                                            {
-                                                @if (item.IdWorkStatus == 3)
-                                                {
-                                                    <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
-                                                        <a href="/employee?congviec=@item.Id">
-                                                            <div style="width:100%;height:300px;">
-                                                                <div>@item.WorkContent</div>
-                                                                <div>@item.StartDate</div>
-                                                                <div>@item.EndDate</div>
-                                                                <div>@item.DateCreated</div>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                }
-                                            }
-                                        </div>
-                                        <div style="float:right;width:47%;height:auto">
-                                            <div>
-                                                Trễ hạn:
-                                            </div>
-                                            @foreach (var item in Model.getAllByIdWorkList(id_get))
-                                            {
-                                                @if (item.IdWorkStatus == 4)
-                                                {
-                                                    <div style="border: 1px solid black;padding-top:10px;margin-top:5px">
-                                                        <a href="/employee?congviec=@item.Id">
-                                                            <div style="width:100%;height:300px;">
-                                                                <div>@item.WorkContent</div>
-                                                                <div>@item.StartDate</div>
-                                                                <div>@item.EndDate</div>
-                                                                <div>@item.DateCreated</div>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                }
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        }
-                        @if (loai.Equals("?congviec"))
-                        {
-
-                            <div><a href="/employee?danhsachcongviec=@id_worklist">Back</a></div>
-
-                            <div style="width:300px;height:50px; border: 1px solid black">
-                                Chi tiết công việc
-                            </div>
-
-                        }
-
-                    }
-                    @if (id_role.Equals("2") && id_employee.Equals(Model.getSessionIdEmployee()) == false)
-                    {
-                        @if (loai.Equals("?id") == true)
-                        {
-                            <div style="background-color:yellow">
-                                <div style="float:left">
-                                    <a href="/employee?Addworklist=@id_get">Thêm danh sách công việc</a>
-                                </div>
-
-                            </div>
-                            <div style="clear:both">
-                                @foreach (var item in Model.getPublicEmployee())
-                                {
-                                    <div style=" border: 1px solid black;padding-top:3px;height:100px">
-                                        <a href="/employee?danhsachcongviec=@item.Id">
-                                            <div style="width:100%;height:100px;  color:black">
-                                                <div>Tên danh sách: @item.WorkListName</div>
-                                                <div>Trạng thái: @item.IdWorkListStatus</div>
-                                            </div>
-
-                                        </a>
-                                    </div>
-
-                                }
-                            </div>
-                        }
-                        @if (loai.Equals("?danhsachcongviec"))
-                        {
-                            
-                            <div>
-                                <a href="/employee?id=@id_employee"> Back </a>
-                            </div>
-                            <div style="clear:both">
-                                <div>
-                                    <div>
-                                        <div style="float:left;width:47%;height:100px">
-                                            <div>
-                                                Cần làm:
-                                            </div>
-                                            <div style="border: 1px solid black;padding-top:3px">
-                                                <a href="/employee?congviec=1">
-                                                    <div style="width:100%;height:50px;">
-                                                        Công việc giám đốc xem 1.
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div style="float:right;width:47%;height:100px">
-                                            <div>
-                                                Đang làm:
-                                            </div>
-                                            <div style="border: 1px solid black;padding-top:3px">
-                                                <a href="/employee?congviec=2">
-                                                    <div style="width:300px;height:50px;">
-                                                        Công việc giám đốc xem 2.
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div style="float:left;width:47%;height:100px">
-                                            <div>
-                                                Đã làm:
-                                            </div>
-                                            <div style="border: 1px solid black;padding-top:3px">
-                                                <a href="/employee?congviec=2">
-                                                    <div style="width:300px;height:50px;">
-                                                        Công việc giám đốc xem 3.
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div style="float:left;width:47%;height:100px">
-                                            <div>
-                                                Trễ hạn:
-                                            </div>
-                                            <div style="border: 1px solid black;padding-top:3px">
-                                                <a href="/employee?congviec=2">
-                                                    <div style="width:300px;height:50px;">
-                                                        Công việc giám đốc xem 4.
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                </div>
-                            </div>
-
-                        }
-                        @if (loai.Equals("?congviec"))
-                        {
-
-                            <div><a href="/employee?danhsachcongviec=@id_worklist">Back</a></div>
-
-                            <div style="width:300px;height:50px; border: 1px solid black">
-                                Chi tiết công việc
-                            </div>
-
-                        }
-
-                    }
-
-
-
-
-
-
-                    @if (loai.Equals("?Addworklist"))
-                    {
-                        <div>
-                            <a href="/employee?id=@id_employee"> Back </a>
-                        </div>
-                        <h1> AddWorkList @id_get</h1>
-                        <form method="post">
-                            <div>
-
-
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-                                                <div><label>AddWorkList</label></div>
-                                                <div class="group">
-                                                    <label for="WorkListName" class="label">WorkListName</label>
-                                                    <input id="Add_WorkListName" type="text" class="input" name="Add_WorkListName">
-                                                </div>
-                                                <div class="group">
-                                                    <label for="WorkListStatus" class="label">WorkListStatus</label>
-                                                    <select id="Add_WorkListStatus" name="Add_WorkListStatus">
-                                                        <option value="1">Public</option>
-                                                        <option value="2">Private</option>
-                                                    </select>
-
-                                                </div>
-                                                <div class="group">
-                                                    <input type="submit" name="Add_WorkList" id="Add_WorkList" class="button" value="Add WorkList">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </form>
-                    }
-
-                    @if (loai.Equals("?Editworklist"))
-                    {
-                        var edit_workList = Model.getById(int.Parse(id_get));
-                        <div>
-                            <a href="/employee?id=@id_employee"> Back </a>
-                        </div>
-
-
-                        <h1> EditWorkList </h1>
-                        <form method="post">
-                            <div>
-
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-                                                <div class="group">
-                                                    <label for="WorkListName" class="label">WorkListName</label>
-                                                    <input id="Edit_WorkListName" type="text" class="input" name="Edit_WorkListName" value="@edit_workList.WorkListName">
-                                                </div>
-                                                <div class="group">
-                                                    <label for="WorkListName" class="label">WorkListstatus</label>
-
-                                                    @if (edit_workList.IdWorkListStatus == 1)
-                                                    {
-                                                        <select id="Edit_WorkListStatus" name="Edit_WorkListStatus">
-                                                            <option value="1">Public</option>
-                                                            <option value="2">Private</option>
-                                                        </select>
-                                                    }
-                                                    @if (edit_workList.IdWorkListStatus == 2)
-                                                    {
-                                                        <select id="Edit_WorkListStatus" name="Edit_WorkListStatus">
-                                                            <option value="2">Private</option>
-                                                            <option value="1">Public</option>
-                                                        </select>
-                                                    }
-                                                </div>
-                                                <div class="group">
-                                                    <label for="DateCreatedWorkList" class="label">DateCreated</label>
-                                                    <input id="Edit_DateCreatedWorkList" type="text" class="input" name="Edit_DateCreatedWorkList" value="@edit_workList.DateCreated">
-                                                </div>
-                                                <label><input type="hidden" id="edit_id_worklist" name="edit_id_worklist" value="@edit_workList.Id" /></label>
-                                                <label><input type="hidden" id="edit_id_employee" name="edit_id_employee" value="@id_employee" /></label>
-                                                <div class="group">
-                                                    <input type="submit" name="Edit_WorkList" id="Edit_WorkList" class="button" value="Edit WorkList">
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    }
-                }
-
-            </div>
             </div>
 
-            <div id="mySidenavAddWork" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNavAddWork()">&times;</a>
-                <a href="#">About</a>
-                <a href="#">Services</a>
-                <a href="#">Clients</a>
-                <a href="#">Contact</a>
-            </div>
+            
             <div id="mySidenavEditWork" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNavEditWork()">&times;</a>
                 <a href="#">About</a>
@@ -482,17 +839,16 @@
                 <a href="#">Clients</a>
                 <a href="#">Contact</a>
             </div>
-           
+
         </div>
-                    <!-- /#page-content-wrapper -->
-               
-                <!-- /#wrapper -->
+        <!-- /#page-content-wrapper -->
+        <!-- /#wrapper -->
 
 
 
 
 
-</body>
+    </body>
 </head>
 <script src="~/css/Table_Responsive_v1/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

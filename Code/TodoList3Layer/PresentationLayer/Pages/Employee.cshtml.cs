@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Providers.Entities;
 using BusinessLogicLayer.Interfaces;
@@ -58,7 +61,71 @@ namespace PresentationLayer.Pages
             {
                 edit_WorkList();
             }
-            
+            if (Request.Form["Add_WorkList"].Equals("Add WorkList"))
+            {
+                add_WorkList();
+            }
+            if (Request.Form["submit_add_1_employee"].Equals("Add"))
+            {
+                add_1_Employee();
+            }
+            if (Request.Form["Add_Work"].Equals("Add Work"))
+            {
+                add_work();
+            }
+            if (String.Compare(Request.Form["submit_editstatus"],"Cần làm") == 0)
+            {
+                Console.WriteLine("chay toi day 1");
+               
+            }
+
+            if (String.Compare(Request.Form["submit_editstatus"],"Đang làm") == 0)
+            {
+                Console.WriteLine("chay toi day 2");
+               
+            }
+            if (String.Compare(Request.Form["submit_editstatus"],"Đã làm") == 0)
+            {
+                Console.WriteLine("chay toi day 3");
+                
+            }
+            if (String.Compare(Request.Form["submit_editstatus"],"Trễ hạn") == 0)
+            {
+                Console.WriteLine("chay toi day 4");
+              
+            }
+        }
+        public void edit_StatusWork()
+        {
+            WorkDTO workDTO = new WorkDTO();
+            workDTO.IdWorkStatus = int.Parse(Request.Form["editstatus_id"]);
+            workDTO.Id = int.Parse(Request.Form["editstatus_idwork"]);
+            int id_employee = int.Parse(getid_employee());
+            workService.save(workDTO,id_employee);
+            Response.Redirect("/employee?congviec=" + workDTO.Id);
+            Console.WriteLine(workDTO.IdWorkStatus);
+            Console.WriteLine(workDTO.Id);
+        }
+        public void add_work()
+        {
+            WorkDTO workDTO = new WorkDTO();
+            workDTO.Id = 0;
+            workDTO.IdWorkList = int.Parse(Request.Form["addwork_id_worklist"]);
+            workDTO.WorkName = Request.Form["Add_WorkName"];
+            workDTO.WorkContent = Request.Form["Add_WorkContent"];
+            workDTO.StartDate = DateTime.Parse( Request.Form["Add_WorkStartDate"]);
+            workDTO.EndDate = DateTime.Parse(Request.Form["Add_WorkEndDate"]);
+            workDTO.IdWorkStatus = 1;
+            int id_employee = int.Parse(Request.Form["addwork_id_employee"]);
+                workService.save(workDTO, id_employee);
+                Response.Redirect("/employee?danhsachcongviec=" + workDTO.IdWorkList);
+            Console.WriteLine("in test");
+            Console.WriteLine(workDTO.IdWorkList);
+            Console.WriteLine(workDTO.WorkName);
+            Console.WriteLine(workDTO.WorkContent);
+            Console.WriteLine(workDTO.StartDate);
+            Console.WriteLine(workDTO.EndDate);
+            Console.WriteLine(id_employee);
         }
         public void edit_WorkList()
         {
@@ -69,12 +136,24 @@ namespace PresentationLayer.Pages
             workListDTO.Id = int.Parse(Request.Form["edit_id_worklist"]);
             int edit_id_employee = int.Parse(Request.Form["edit_id_employee"]);
             workListService.save(workListDTO, edit_id_employee);
-            Console.WriteLine("worklistname :" + workListDTO.WorkListName);
-            Console.WriteLine("idworkliststatus :" + workListDTO.IdWorkListStatus);
-            Console.WriteLine("DateCreated :" + workListDTO.DateCreated);
-            Console.WriteLine("id worklist :" + workListDTO.Id);
-            Console.WriteLine("id employee :" + edit_id_employee);
-            Response.Redirect("/employee?id=" + getid_employee());
+            Response.Redirect("/employee?id=" + edit_id_employee);
+        }
+        public void add_WorkList()
+        {
+            WorkListDTO workListDTO = new WorkListDTO();
+            workListDTO.WorkListName = Request.Form["Add_WorkListName"];
+            workListDTO.IdWorkListStatus = int.Parse(Request.Form["Add_WorkListStatus"]);
+            workListDTO.Id = 0;
+            int add_id_employee = int.Parse(Request.Form["add_id_employee"]);
+            workListService.save(workListDTO, add_id_employee);
+            Response.Redirect("/employee?id=" + add_id_employee);
+        }
+        public void add_1_Employee()
+        {
+            int id_add_1_employee = int.Parse(Request.Form["id_add_1_employee"]);
+            int id_add_1_worklist = int.Parse(Request.Form["id_add_1_worklist"]);
+            workListService.addEmployee(id_add_1_worklist, id_add_1_employee);
+            Response.Redirect("/employee?danhsachcongviec=" + id_add_1_worklist);
         }
         public void deleteWorkList()
         {
@@ -133,5 +212,11 @@ namespace PresentationLayer.Pages
         {
             return workListService.getById(id);
         }
+        public WorkDTO getWorkById(int id)
+        {
+            return workService.getById(id);
+        }
+        
+       
     }
 }
