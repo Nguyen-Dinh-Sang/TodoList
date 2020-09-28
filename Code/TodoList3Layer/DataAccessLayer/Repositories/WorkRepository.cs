@@ -22,9 +22,20 @@ namespace DataAccessLayer.Repositories
             todoListDBContext.SaveChanges();
             var result = todoListDBContext.Work.Find(idWork);
             var workList = todoListDBContext.WorkList.Find(result.IdWorkList);
+
+
+            var workListEmployeeExist = from wle in todoListDBContext.WorkListEmployee
+                                        where wle.IdWorkList == result.IdWorkList && wle.IdEmployee == idEmployee
+                                        select wle;
+            if (workListEmployeeExist.Count() > 0)
+            {
+                return result;
+            }
+
             WorkListEmployee workListEmployee = new WorkListEmployee();
             workListEmployee.IdWorkList = workList.Id;
             workListEmployee.IdEmployee = idEmployee;
+
             todoListDBContext.WorkListEmployee.Add(workListEmployee);
             todoListDBContext.SaveChanges();
             return result;
