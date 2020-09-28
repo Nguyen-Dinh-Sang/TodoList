@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using BusinessLogicLayer.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,50 +14,77 @@ namespace PresentationLayer.Pages
     public class LoginModel : PageModel
     {
         IEmployeeService employeeService = new EmployeeService();
+        string login;
         public void OnGet()
         {
         }
-        public void OnPost()
-        {
-            
-            
+        public JsonResult OnPost()
+        {   
             if(Request.Form["login_submit"].Equals("Sign In"))
             {
-                var user = Request.Form["login_username"];
-                var pass = Request.Form["login_password"];
-
-                if (employeeService.login(user, pass).IdRole == 1)
-                {
-                    Response.Redirect("/user");
-                }
+                signIn();
+               
             }
             else
             {
-                if(Request.Form["registration_submit"].Equals("Sign Up") && Request.Form["registration_password"].Equals(Request.Form["registration_passwordRepeat"]))
+                signUp();
+            }
+            return new JsonResult("oke");
+        }
+
+        
+
+        public void signIn()
+        {
+
+            var user = Request.Form["login_username"];
+            var pass = Request.Form["login_password"];
+            var employee = employeeService.login(user, pass);
+            if (employee != null)
+            {
+                HttpContext.Session.SetString("fullname", employee.FullName + "");
+                HttpContext.Session.SetString("idrole", employee.IdRole + "");
+                HttpContext.Session.SetString("idemployee", employee.Id + "");
+                if (employee.IdRole == 1)
+                {
+                    Response.Redirect("/employee");
+                }
+                else
+                {
+                    if (employee.IdRole == 2)
                     {
-                    EmployeeDTO employeeDTO = new EmployeeDTO();
-                    employeeDTO.Id = 0;
-                    employeeDTO.Email= Request.Form["registration_email"];
-                    employeeDTO.FullName= Request.Form["registration_fullname"];
-                    employeeDTO.Password= Request.Form["registration_password"];
-                    employeeDTO.DateCreated= DateTime.Parse(Request.Form["registration_datecreated"]);
-                    if(employeeService.checkEmailExists(employeeDTO.Email)==true)
-                    {
-                        Console.WriteLine("Email đã tồn tại");
+                        
+                        Response.Redirect("/employee?id=" + employee.Id);
                     }
                     else
                     {
-                        employeeService.save(employeeDTO);
-                    }    
-                    
-                    
+
                     }
-            }    
-                
-   
-            
-            
+                }
+            }
+
         }
-        
+        public void signUp()
+        {
+            if (Request.Form["registration_submit"].Equals("Sign Up") && Request.Form["registration_password"].Equals(Request.Form["registration_passwordRepeat"]))
+            {
+                EmployeeDTO employeeDTO = new EmployeeDTO();
+                employeeDTO.Id = 0;
+                employeeDTO.Email = Request.Form["registration_email"];
+                employeeDTO.FullName = Request.Form["registration_fullname"];
+                employeeDTO.Password = Request.Form["registration_password"];
+                if (employeeService.checkEmailExists(employeeDTO.Email) == true)
+                {
+                    Console.WriteLine("Email đã tồn tại");
+                }
+                else
+                {
+                    employeeService.save(employeeDTO);
+                }
+
+
+            }
+        }
     }
+    
 }

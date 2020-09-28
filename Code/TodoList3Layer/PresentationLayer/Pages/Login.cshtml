@@ -7,9 +7,12 @@
 <head>
     <title>Login V10</title>
     <link rel="stylesheet" href="~/css/Login_css.css" />
+    <script type="text/javascript" src="~/js/Employee_js/Employee.js"></script>
+    <script type="text/javascript" src="~/js/jQuery/jQuery.js"></script>
 </head>
 <body>
-    <form method="post">
+    <form method="post" name="login_form">
+        
         <div class="login-wrap">
             <div class="login-html">
                 <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
@@ -52,10 +55,6 @@
                         <div class="group">
                             <label for="email" class="label">Email Address</label>
                             <input id="registration_email" name="registration_email" type="text" class="input">
-                        </div>
-                        <div class="group">
-                            <label for="date" class="label">Date created</label>
-                            <input id="registration_datecreated" name="registration_datecreated" type="text" class="input">
                         </div>
                         <div class="group">
                             <input type="submit" name="registration_submit" id="registration_submit" class="button" value="Sign Up">
