@@ -8,25 +8,25 @@ function openNav() {
 function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
 }
-function openNavEdit() {
-    document.getElementById("mySidenavEdit").style.width = "100%";
+function openNavWork() {
+    document.getElementById("mySidenavWork").style.width = "100%";
 }
 
-function closeNavEdit() {
-    document.getElementById("mySidenavEdit").style.width = "0";
+function closeNavWork() {
+    document.getElementById("mySidenavWork").style.width = "0";
 }
-function openNavAddWork() {
-    document.getElementById("mySidenavAddWork").style.width = "100%";
-}
-
-function closeNavAddWork() {
-    document.getElementById("mySidenavAddWork").style.width = "0";
-}
-function openNavEditWork() {
-    document.getElementById("mySidenavEditWork").style.width = "100%";
+function openNavWorkEmployee() {
+    document.getElementById("mySidenavWorkEmployee").style.width = "100%";
 }
 
-function closeNavEditWork() {
-    document.getElementById("mySidenavEditWork").style.width = "0";
+function closeNavWorkEmployee() {
+    document.getElementById("mySidenavWorkEmployee").style.width = "0";
+}
+function openNavWorkListEmployee() {
+    document.getElementById("mySidenavWorkListEmployee").style.width = "100%";
+}
+
+function closeNavWorkListEmployee() {
+    document.getElementById("mySidenavWorkListEmployee").style.width = "0";
 }
 

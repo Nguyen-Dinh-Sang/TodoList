@@ -14,10 +14,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace PresentationLayer.Pages
-{   
+{
     public class EmployeeModel : PageModel
     {
-        public string id=null;
+        public string id = null;
         public string loai = null;
         private string loaisession, idsession = null;
         IEmployeeService employeeService = new EmployeeService();
@@ -25,16 +25,16 @@ namespace PresentationLayer.Pages
         IWorkService workService = new WorkService();
         public void OnGet()
         {
-            if(Request.QueryString.HasValue == true)
+            if (Request.QueryString.HasValue == true)
             {
                 var get = Request.QueryString.Value.Split('=');
                 id = get[1];
                 loai = get[0];
-                if(loai!=null && id!=null)
+                if (loai != null && id != null)
                 {
                     HttpContext.Session.SetString("loai", loai + "");
                     HttpContext.Session.SetString("id", id + "");
-                    if(loai.Equals("?id"))
+                    if (loai.Equals("?id"))
                     {
                         HttpContext.Session.SetString("id_employee", id + "");
                     }
@@ -46,18 +46,18 @@ namespace PresentationLayer.Pages
                     {
                         HttpContext.Session.SetString("id_work", id + "");
                     }
-                }    
-                
-            }    
-            
-            
+                }
+
+            }
+
+
         }
         public void OnPost()
-        {   if(Request.Form["danhsachcongviec_delete"].Equals("Delete"))
+        { if (Request.Form["danhsachcongviec_delete"].Equals("Delete"))
             {
                 deleteWorkList();
             }
-            if(Request.Form["Edit_WorkList"].Equals("Edit WorkList"))
+            if (Request.Form["Edit_WorkList"].Equals("Edit WorkList"))
             {
                 edit_WorkList();
             }
@@ -73,26 +73,38 @@ namespace PresentationLayer.Pages
             {
                 add_work();
             }
-            if (String.Compare(Request.Form["submit_editstatus"],"Cần làm") == 0)
+            if (Request.Form["congviec_delete"].Equals("Delete"))
+            {
+                deleteWork();
+            }
+            if (Request.Form["Edit_Work"].Equals("Edit Work"))
+            {
+                edit_work();
+            }
+            if (Request.Form["submit_add_work_employee"].Equals("Add"))
+            {
+                add_1_EmployeeWork();
+            }
+            if (String.Compare(Request.Form["submit_editstatus"], "Cần làm") == 0)
             {
                 Console.WriteLine("chay toi day 1");
-               
+
             }
 
-            if (String.Compare(Request.Form["submit_editstatus"],"Đang làm") == 0)
+            if (String.Compare(Request.Form["submit_editstatus"], "Đang làm") == 0)
             {
                 Console.WriteLine("chay toi day 2");
-               
+
             }
-            if (String.Compare(Request.Form["submit_editstatus"],"Đã làm") == 0)
+            if (String.Compare(Request.Form["submit_editstatus"], "Đã làm") == 0)
             {
                 Console.WriteLine("chay toi day 3");
-                
+
             }
-            if (String.Compare(Request.Form["submit_editstatus"],"Trễ hạn") == 0)
+            if (String.Compare(Request.Form["submit_editstatus"], "Trễ hạn") == 0)
             {
                 Console.WriteLine("chay toi day 4");
-              
+
             }
         }
         public void edit_StatusWork()
@@ -101,11 +113,12 @@ namespace PresentationLayer.Pages
             workDTO.IdWorkStatus = int.Parse(Request.Form["editstatus_id"]);
             workDTO.Id = int.Parse(Request.Form["editstatus_idwork"]);
             int id_employee = int.Parse(getid_employee());
-            workService.save(workDTO,id_employee);
+            workService.save(workDTO, id_employee);
             Response.Redirect("/employee?congviec=" + workDTO.Id);
             Console.WriteLine(workDTO.IdWorkStatus);
             Console.WriteLine(workDTO.Id);
         }
+       
         public void add_work()
         {
             WorkDTO workDTO = new WorkDTO();
@@ -113,26 +126,33 @@ namespace PresentationLayer.Pages
             workDTO.IdWorkList = int.Parse(Request.Form["addwork_id_worklist"]);
             workDTO.WorkName = Request.Form["Add_WorkName"];
             workDTO.WorkContent = Request.Form["Add_WorkContent"];
-            workDTO.StartDate = DateTime.Parse( Request.Form["Add_WorkStartDate"]);
+            workDTO.StartDate = DateTime.Parse(Request.Form["Add_WorkStartDate"]);
             workDTO.EndDate = DateTime.Parse(Request.Form["Add_WorkEndDate"]);
             workDTO.IdWorkStatus = 1;
             int id_employee = int.Parse(Request.Form["addwork_id_employee"]);
-                workService.save(workDTO, id_employee);
-                Response.Redirect("/employee?danhsachcongviec=" + workDTO.IdWorkList);
-            Console.WriteLine("in test");
-            Console.WriteLine(workDTO.IdWorkList);
-            Console.WriteLine(workDTO.WorkName);
-            Console.WriteLine(workDTO.WorkContent);
-            Console.WriteLine(workDTO.StartDate);
-            Console.WriteLine(workDTO.EndDate);
-            Console.WriteLine(id_employee);
+            workService.save(workDTO, id_employee);
+            Response.Redirect("/employee?danhsachcongviec=" + workDTO.IdWorkList);
+        }
+        public void edit_work()
+        {
+            WorkDTO workDTO = new WorkDTO();
+            workDTO.Id = int.Parse(Request.Form["editwork_id_work"]);
+            workDTO.IdWorkList = int.Parse(Request.Form["id_Edit_WorkList"]);
+            workDTO.WorkName = Request.Form["Edit_WorkName"];
+            workDTO.WorkContent = Request.Form["Edit_WorkContent"];
+            workDTO.StartDate = DateTime.Parse(Request.Form["Edit_WorkStartDate"]);
+            workDTO.EndDate = DateTime.Parse(Request.Form["Edit_WorkEndDate"]);
+            workDTO.IdWorkStatus = int.Parse(Request.Form["id_Edit_WorkStatus"]);
+            int id_employee = int.Parse(Request.Form["editwork_id_employee"]);
+            workService.save(workDTO, id_employee);
+            Response.Redirect("/employee?congviec=" + workDTO.Id);
         }
         public void edit_WorkList()
         {
             WorkListDTO workListDTO = new WorkListDTO();
             workListDTO.WorkListName = Request.Form["Edit_WorkListName"];
             workListDTO.IdWorkListStatus = int.Parse(Request.Form["Edit_WorkListStatus"]);
-            workListDTO.DateCreated = DateTime.Parse( Request.Form["Edit_DateCreatedWorkList"]);
+            workListDTO.DateCreated = DateTime.Parse(Request.Form["Edit_DateCreatedWorkList"]);
             workListDTO.Id = int.Parse(Request.Form["edit_id_worklist"]);
             int edit_id_employee = int.Parse(Request.Form["edit_id_employee"]);
             workListService.save(workListDTO, edit_id_employee);
@@ -155,10 +175,22 @@ namespace PresentationLayer.Pages
             workListService.addEmployee(id_add_1_worklist, id_add_1_employee);
             Response.Redirect("/employee?danhsachcongviec=" + id_add_1_worklist);
         }
+        public void add_1_EmployeeWork()
+        {
+            int id_add_1_employee = int.Parse(Request.Form["id_add_work_employee"]);
+            int id_add_1_work = int.Parse(Request.Form["id_add_work"]);
+            workService.addEmployee(id_add_1_employee, id_add_1_work);
+            Response.Redirect("/employee?congviec=" + id_add_1_work);
+        }
         public void deleteWorkList()
         {
             workListService.remove(int.Parse(Request.Form["id_delete"]));
             Response.Redirect("/employee" + HttpContext.Session.GetString("loai") + "=" + HttpContext.Session.GetString("id"));
+        }
+        public void deleteWork()
+        {
+            workService.remove(int.Parse(Request.Form["id_delete_work"]));
+            Response.Redirect("/employee?danhsachcongviec=" + getid_worklist());
         }
         public string getSessionLoai()
         {
@@ -208,6 +240,14 @@ namespace PresentationLayer.Pages
         {
             return workService.getAllByIdWorkList(int.Parse(id));
         }
+        public IEnumerable<EmployeeDTO> getNotInWorkList(string id)
+        {
+            return employeeService.getNotInWorkList(int.Parse(id));
+        }
+        public IEnumerable<EmployeeDTO> getNotInWork(string id)
+        {
+            return employeeService.getNotInWork(int.Parse(id));
+        }
         public WorkListDTO getById(int id)
         {
             return workListService.getById(id);
@@ -216,7 +256,15 @@ namespace PresentationLayer.Pages
         {
             return workService.getById(id);
         }
-        
-       
+        public IEnumerable<EmployeeDTO> getEmployeeByIdWorkList(string id)
+        {
+            return employeeService.getByIdWorkList(int.Parse(id));
+        }
+        public IEnumerable<EmployeeDTO> getEmployeeByIdWork(string id)
+        {
+            return employeeService.getByIdWork(int.Parse(id));
+        }
+
+
     }
 }
