@@ -23,6 +23,7 @@ namespace PresentationLayer.Pages
         IEmployeeService employeeService = new EmployeeService();
         IWorkListService workListService = new WorkListService();
         IWorkService workService = new WorkService();
+        ICommentService commentService = new CommentService();
         public void OnGet()
         {
             if (Request.QueryString.HasValue == true)
@@ -85,6 +86,15 @@ namespace PresentationLayer.Pages
             {
                 add_1_EmployeeWork();
             }
+            if (Request.Form["submit_comment"].Equals("Send"))
+            {
+                add_Comment();
+            }
+            
+                if (Request.Form["delete_comment"].Equals("Delete"))
+            {
+                delete_Comment();
+            }
             if (String.Compare(Request.Form["submit_editstatus"], "Cần làm") == 0)
             {
                 edit_StatusWork();
@@ -109,6 +119,23 @@ namespace PresentationLayer.Pages
                 edit_StatusWork();
 
             }
+        }
+        public void delete_Comment()
+        {
+            
+                int id_comment = int.Parse(Request.Form["delete_cmt_idcmt"]);
+            commentService.remove(id_comment);
+            Response.Redirect("/employee?congviec=" + getid_work());
+        }
+        public void add_Comment()
+        {
+            CommentDTO commentDTO = new CommentDTO();
+            commentDTO.IdEmployee = int.Parse(Request.Form["id_cmt_employee"]);
+            commentDTO.IdWork = int.Parse(Request.Form["add_cmt_idwork"]);
+            commentDTO.Id = int.Parse(Request.Form["add_cmt_idcmt"]);
+            commentDTO.CommentContent = Request.Form["Add_Comment"];
+            commentService.save(commentDTO);
+            Response.Redirect("/employee?congviec=" + commentDTO.IdWork);
         }
         public void edit_StatusWork()
         {
@@ -267,6 +294,13 @@ namespace PresentationLayer.Pages
             return employeeService.getByIdWork(int.Parse(id));
         }
 
-
+        public IEnumerable<CommentDTO> getAllCommentByIdWork(string id)
+        {
+            return commentService.getAllByIdWork(int.Parse(id));
+        }
+        public EmployeeDTO getEmployeeById(string id)
+        {
+            return employeeService.getById(int.Parse(id));
+        }
     }
 }
