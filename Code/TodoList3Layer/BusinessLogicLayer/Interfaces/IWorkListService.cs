@@ -18,5 +18,7 @@ namespace BusinessLogicLayer.Interfaces
         bool remove(int id);
 
         WorkListDTO getById(int id);
+
+        bool removeEmployee(int idEmployee, int idworkList);
     }
 }

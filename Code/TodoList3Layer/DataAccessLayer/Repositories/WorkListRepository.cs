@@ -58,6 +58,32 @@ namespace DataAccessLayer.Repositories
             return false;
         }
 
+        public bool removeEmployee(int idEmployee, int idworkList)
+        {
+            var result = from wle in todoListDBContext.WorkListEmployee
+                                        where wle.IdEmployee == idEmployee && wle.IdWorkList == idworkList
+                                        select wle;
+            todoListDBContext.WorkListEmployee.Remove(result.First());
+            todoListDBContext.SaveChanges();
+
+            var workEmployees = from w in todoListDBContext.Work
+                         join we in todoListDBContext.WorkEmployee on w.Id equals we.IdWork
+                         where we.IdEmployee == idEmployee && w.IdWorkList == idworkList
+                         select we;
+
+            foreach (var workEmployee in workEmployees)
+            {
+                todoListDBContext.WorkEmployee.Remove(workEmployee);
+                todoListDBContext.SaveChanges();
+            }
+
+            if (todoListDBContext.WorkListEmployee.Find(result.First().Id) == null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public WorkList save(WorkList workList, int idEmployee)
         {
             if (workList.Id == 0)
