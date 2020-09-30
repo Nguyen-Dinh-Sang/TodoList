@@ -24,6 +24,7 @@ VALUES(N'nhanvien2@gmail.com', '12345', N'Linh Xinh Gái', '0345225651', 2)
 
 INSERT INTO Employee(Email, Password, FullName, PhoneNumber, IdRole)
 VALUES(N'nhanvien3@gmail.com', '12345', N'Quân Bất Cần', '0345225651', 2)
+
 INSERT INTO Employee(Email, Password, FullName, PhoneNumber, IdRole)
 VALUES(N'nhanvien4@gmail.com', '12345', N'Thanh Bê Đê', '0345225651', 2)
 GO
