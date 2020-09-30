@@ -41,6 +41,11 @@ namespace BusinessLogicLayer.Services
             return workRepository.remove(id);
         }
 
+        public bool removeEmployee(int idEmployee, int idWork)
+        {
+            return workRepository.removeEmployee(idEmployee, idWork);
+        }
+
         public WorkDTO save(WorkDTO work, int idEmployee)
         {
             return mapper.Map<Work, WorkDTO>(workRepository.save(mapper.Map<WorkDTO, Work>(work), idEmployee));
