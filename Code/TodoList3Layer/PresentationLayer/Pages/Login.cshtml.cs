@@ -18,7 +18,7 @@ namespace PresentationLayer.Pages
         public void OnGet()
         {
         }
-        public JsonResult OnPost()
+        public void OnPost()
         {   
             if(Request.Form["login_submit"].Equals("Sign In"))
             {
@@ -29,7 +29,7 @@ namespace PresentationLayer.Pages
             {
                 signUp();
             }
-            return new JsonResult("oke");
+           
         }
 
         

@@ -43,4 +43,17 @@ function huy_edit_comment() {
     document.getElementById("Add_Comment").value = "";
     document.getElementById("close_edit_comment").innerHTML = " ";
 }
+function thaydoingay() {
+    var datecreated = document.getElementById("Ed_Editdatecrated").value;
+    document.getElementById("Edit_DateCreatedWorkList").value = datecreated;
+}
+$(document).ready(
+    function () {
+        $("#datepicker").datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeMonth: true, //Tùy chọn này cho phép người dùng chọn tháng
+            changeYear: true //Tùy chọn này cho phép người dùng lựa chọn từ phạm vi năm
+        });
+    }
+);
 

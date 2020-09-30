@@ -23,6 +23,10 @@
     <link rel="stylesheet" href="~/css/Login_css.css" />
     <link rel="stylesheet" href="~/css/Employee/Employee.css" />
     <script src="~/js/Employee_js/Employee.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+</head>
     <body style="background-color:white">
 
 
@@ -31,7 +35,7 @@
             <div style="float:left; border-left:solid 2px black;"><a href="/login">Logout</a></div>
         </div>
         <div>
-@*Hiển thị danh sách nhân viên*@
+            @*Hiển thị danh sách nhân viên*@
             <div id="wrapper" style="clear:both">
                 <!-- Sidebar -->
                 <div id="sidebar-wrapper" style="float:left ">
@@ -66,7 +70,7 @@
                         @if (id_role.Equals("1") || id_role.Equals("2") && id_employee.Equals(Model.getSessionIdEmployee()) == true)
                         {@*Hiển thị các danh sách công việc*@
                         @if (loai.Equals("?id") == true)
-                        {
+                        {<h1>Work List:</h1>
                             <div style="background-color:yellow">
                                 <div style="float:left">
                                     <a href="/employee?Addworklist=@id_get">Add WorkList</a>
@@ -105,6 +109,7 @@
                         }
                         @if (loai.Equals("?danhsachcongviec"))
                         {@*Hiển thị các nhân viên chưa có trong danh sách*@
+                        <h1>Work:</h1>
                         <div id="mySidenav" class="sidenav">
                             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                             <table style="border:1px solid black;width:80%;text-align:center">
@@ -300,6 +305,7 @@
                     }
                         @if (loai.Equals("?congviec"))
                         {
+                            <h2>Work Details:</h2>
                             var congviec = Model.getWorkById(int.Parse(id_get));
                             DateTime day = DateTime.Parse("" + congviec.StartDate);
                             string dayOfWeek = day.DayOfWeek + "";
@@ -380,7 +386,7 @@
                             </div>
 
                             <div style="width:80%;height:300px; text-align:left; border: 1px solid black;clear:both">
-                                <h2>Chi tiết công việc:</h2>
+
                                 <div style="margin-top:5px">
                                     <div style="float:left;width:20%">Tên công việc :</div>
                                     <div style="float:left">@congviec.WorkName</div>
@@ -619,8 +625,8 @@
                         @if (id_role.Equals("2") && id_employee.Equals(Model.getSessionIdEmployee()) == false)
                         {
                             @if (loai.Equals("?id") == true)
-                            {
-                                
+                            {<h1> Work List:</h1>
+
                                 <div style="clear:both">
                                     @foreach (var item in Model.getPublicEmployee())
                                     {
@@ -641,7 +647,7 @@
                             {<div>
                                     <a href="/employee?id=@id_employee"> Back </a>
                                 </div>
-
+                                <h1>Work:</h1>
                                 <div style="clear:both">
                                     <div>
                                         <div style="height:auto">
@@ -751,7 +757,7 @@
 
                             }
                             @if (loai.Equals("?congviec"))
-                            {
+                            {<h1>Work Details</h1>
                                 var congviec = Model.getWorkById(int.Parse(id_get));
                                 DateTime day = DateTime.Parse("" + congviec.StartDate);
                                 string dayOfWeek = day.DayOfWeek + "";
@@ -907,6 +913,7 @@
                         @if (loai.Equals("?Editworklist"))
                         {
                             var edit_workList = Model.getById(int.Parse(id_get));
+                            var createddate = Convert.ToDateTime(@edit_workList.DateCreated).ToString("yyyy-MM-dd");
                             <div>
                                 <a href="/employee?id=@id_employee"> Back </a>
                             </div>
@@ -943,14 +950,13 @@
                                                             </select>
                                                         }
                                                     </div>
-                                                    <div class="group">
-                                                        <label for="DateCreatedWorkList" class="label">DateCreated</label>
-                                                        <input id="Edit_DateCreatedWorkList" type="text" class="input" name="Edit_DateCreatedWorkList" value="@edit_workList.DateCreated">
-                                                    </div>
+                                                    
+                                                    
+
                                                     <label><input type="hidden" id="edit_id_worklist" name="edit_id_worklist" value="@edit_workList.Id" /></label>
                                                     <label><input type="hidden" id="edit_id_employee" name="edit_id_employee" value="@id_employee" /></label>
                                                     <div class="group">
-                                                        <input type="submit" name="Edit_WorkList" id="Edit_WorkList" class="button" value="Edit WorkList">
+                                                        <input type="submit" name="Edit_WorkList" id="Edit_WorkList" class="button" value="Edit WorkList" />
                                                     </div>
 
 
@@ -976,12 +982,12 @@
                                             <div>
                                                 <div>
                                                     @*public int? IdWorkList { get; set; }
-                                        public int? IdWorkStatus { get; set; }
-                                        public string WorkContent { get; set; }
-                                        public string WorkName { get; set; }
-                                        public DateTime? DateCreated { get; set; }
-                                        public DateTime? StartDate { get; set; }
-                                        public DateTime? EndDate { get; set; }*@
+                                                        public int? IdWorkStatus { get; set; }
+                                                        public string WorkContent { get; set; }
+                                                        public string WorkName { get; set; }
+                                                        public DateTime? DateCreated { get; set; }
+                                                        public DateTime? StartDate { get; set; }
+                                                        public DateTime? EndDate { get; set; }*@
                                                     <div class="group">
                                                         <label for="WorkName" class="label">WorkName</label>
                                                         <input id="Add_WorkName" type="text" class="input" name="Add_WorkName">
@@ -992,11 +998,11 @@
                                                     </div>
                                                     <div class="group">
                                                         <label for="WorkStartDate" class="label">StartDate</label>
-                                                        <input id="Add_WorkStartDate" type="text" class="input" name="Add_WorkStartDate">
+                                                        <input id="Add_WorkStartDate" type="date" class="input" name="Add_WorkStartDate">
                                                     </div>
                                                     <div class="group">
                                                         <label for="WorkEndDate" class="label">EndDate</label>
-                                                        <input id="Add_WorkEndDate" type="text" class="input" name="Add_WorkEndDate">
+                                                        <input id="Add_WorkEndDate" type="date" class="input" name="Add_WorkEndDate">
                                                     </div>
 
                                                     <div class="group">
@@ -1015,6 +1021,8 @@
                         @if (loai.Equals("?Editwork"))
                         {
                             var congviec = Model.getWorkById(int.Parse(id_get));
+                            var createddate1 = Convert.ToDateTime(congviec.StartDate).ToString("yyyy-MM-dd");
+                            var createddate2 = Convert.ToDateTime(congviec.EndDate).ToString("yyyy-MM-dd");
                             <div>
                                 <a href="/employee?congviec=@id_work"> Back </a>
                             </div>
@@ -1029,12 +1037,12 @@
                                             <div>
                                                 <div>
                                                     @*public int? IdWorkList { get; set; }
-                                        public int? IdWorkStatus { get; set; }
-                                        public string WorkContent { get; set; }
-                                        public string WorkName { get; set; }
-                                        public DateTime? DateCreated { get; set; }
-                                        public DateTime? StartDate { get; set; }
-                                        public DateTime? EndDate { get; set; }*@
+                                                        public int? IdWorkStatus { get; set; }
+                                                        public string WorkContent { get; set; }
+                                                        public string WorkName { get; set; }
+                                                        public DateTime? DateCreated { get; set; }
+                                                        public DateTime? StartDate { get; set; }
+                                                        public DateTime? EndDate { get; set; }*@
                                                     <div class="group">
                                                         <label for="WorkName" class="label">WorkName</label>
                                                         <input id="Edit_WorkName" type="text" class="input" name="Edit_WorkName" value="@congviec.WorkName">
@@ -1064,11 +1072,11 @@
                                                     </div>
                                                     <div class="group">
                                                         <label for="WorkStartDate" class="label">StartDate</label>
-                                                        <input id="Edit_WorkStartDate" type="text" class="input" name="Edit_WorkStartDate" value="@congviec.StartDate">
+                                                        <input id="Edit_WorkStartDate" type="date" class="input" name="Edit_WorkStartDate" value="@createddate1">
                                                     </div>
                                                     <div class="group">
                                                         <label for="WorkEndDate" class="label">EndDate</label>
-                                                        <input id="Edit_WorkEndDate" type="text" class="input" name="Edit_WorkEndDate" value="@congviec.EndDate">
+                                                        <input id="Edit_WorkEndDate" type="date" class="input" name="Edit_WorkEndDate" value="@createddate2">
                                                     </div>
 
                                                     <div class="group">
@@ -1093,7 +1101,7 @@
                 </div>
             </div>
 
-            
+
             <div id="mySidenavEditWork" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNavEditWork()">&times;</a>
                 <a href="#">About</a>
@@ -1111,7 +1119,6 @@
 
 
     </body>
-</head>
 <script src="~/css/Table_Responsive_v1/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
 <script src="~/css/Table_Responsive_v1/vendor/bootstrap/js/popper.js"></script>
