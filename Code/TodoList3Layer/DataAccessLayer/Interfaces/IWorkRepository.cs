@@ -18,5 +18,7 @@ namespace DataAccessLayer.Interfaces
         Work addEmployee(int idEmployee, int idWork);
 
         Work editStatus(int idWork, int idStatus);
+
+        bool removeEmployee(int idEmployee, int idWork);
     }
 }

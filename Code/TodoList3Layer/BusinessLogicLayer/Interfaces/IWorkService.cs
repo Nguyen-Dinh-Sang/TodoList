@@ -18,5 +18,7 @@ namespace BusinessLogicLayer.Interfaces
         WorkDTO addEmployee(int idEmployee, int idWork);
 
         WorkDTO editStatus(int idWork, int idStatus);
+
+        bool removeEmployee(int idEmployee, int idWork);
     }
 }
