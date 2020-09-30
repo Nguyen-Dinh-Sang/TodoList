@@ -25,7 +25,7 @@
 });
           
 }
-function demo1
+function demo1()
     {
     var options = {};
     options.url = "/login";

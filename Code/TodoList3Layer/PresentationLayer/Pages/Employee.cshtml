@@ -28,7 +28,7 @@
 
         <div style="float:right">
             <div style="float:left; border:solid 2px red">Chào mừng @Model.getSessionFullname()</div>
-            <div style="float:left; border-left:solid 2px black;"><a href="/login">Đăng xuất</a></div>
+            <div style="float:left; border-left:solid 2px black;"><a href="/login">Logout</a></div>
         </div>
         <div>
 @*Hiển thị danh sách nhân viên*@
@@ -135,8 +135,8 @@
                             <a href="javascript:void(0)" class="closebtn" onclick="closeNavWorkListEmployee()">&times;</a>
                             <table style="border:1px solid black;width:80%;text-align:center">
                                 <tr style="border:1px solid black">
-                                    <th style="text-align:center; border:1px solid black;width:80%">Tên Nhân Viên</th>
-                                    <th style="text-align:center; border:1px solid black;width:20%">Chọn</th>
+                                    <th style="text-align:center; border:1px solid black;width:80%">Full Name</th>
+                                    <th style="text-align:center; border:1px solid black;width:20%"></th>
                                 </tr>
                                 @foreach (var item1 in Model.getEmployeeByIdWorkList(id_get))
                                 {
@@ -308,8 +308,8 @@
                                 <a href="javascript:void(0)" class="closebtn" onclick="closeNavWork()">&times;</a>
                                 <table style="border:1px solid black;width:80%;text-align:center">
                                     <tr style="border:1px solid black">
-                                        <th style="text-align:center; border:1px solid black;width:80%">Tên Nhân Viên</th>
-                                        <th style="text-align:center; border:1px solid black;width:20%">Chọn</th>
+                                        <th style="text-align:center; border:1px solid black;width:80%">Full Name</th>
+                                        <th style="text-align:center; border:1px solid black;width:20%"></th>
                                     </tr>
                                     @foreach (var item1 in Model.getNotInWork(id_get))
                                     {
@@ -334,8 +334,8 @@
                                 <a href="javascript:void(0)" class="closebtn" onclick="closeNavWorkEmployee()">&times;</a>
                                 <table style="border:1px solid black;width:80%;text-align:center">
                                     <tr style="border:1px solid black">
-                                        <th style="text-align:center; border:1px solid black;width:80%">Tên Nhân Viên</th>
-                                        <th style="text-align:center; border:1px solid black;width:20%">Chọn</th>
+                                        <th style="text-align:center; border:1px solid black;width:80%">Full Name</th>
+                                        <th style="text-align:center; border:1px solid black;width:20%"></th>
                                     </tr>
                                     @foreach (var item1 in Model.getEmployeeByIdWork(id_get))
                                     {
@@ -555,6 +555,62 @@
                                 </div>
                             </div>
 
+                            <div style="clear:both">
+                                <h1> Comment</h1>
+                                <div style="width:100%;height:200px;overflow:auto">
+                                    @foreach (var item in Model.getAllCommentByIdWork(id_get))
+                                    {
+                                        var employee = Model.getEmployeeById(item.IdEmployee + "");
+                                        var id_cmt = item.Id;
+                                        var edit_comment = item.CommentContent;
+                                        <div style="clear:both">
+                                            <div style="float:left">
+                                                @employee.FullName :
+                                            </div>
+                                            <div style="float:left">
+                                                @item.CommentContent
+                                            </div>
+                                            @if (item.IdEmployee == int.Parse(Model.getSessionIdEmployee()))
+                                            {
+                                                <div style="clear:both">
+                                                    <div style="float:left">
+                                                        <form method="post">
+                                                            <input type="hidden" value="@item.Id" id="delete_cmt_idcmt" name="delete_cmt_idcmt" />
+                                                            <input type="submit" value="Delete" id="delete_comment" name="delete_comment" />
+                                                        </form>
+                                                    </div>
+                                                    <div style="float:left; margin-left:10px">
+
+
+                                                        <input type="hidden" id="hidden_edit_comment" name="hidden_edit_comment" value="@item.CommentContent" />
+                                                        <button id="edit_comment" name="edit_comment" value="@item.Id" onclick="btncomment('@item.Id', '@item.CommentContent')">Edit </button>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        </div>
+                                    }
+                                </div>
+                                <div>
+                                    <form method="post">
+                                        <div class="group" style="float:left">
+                                            <div style="float:left"><label for="Comment" class="label">Comment:</label></div>
+                                            <div style="float:left"><input id="Add_Comment" type="text" class="input" name="Add_Comment" placeholder="Comment..."></div>
+                                        </div>
+                                        <div style="float:left">
+                                            <div style="float:left">
+                                                <input type="hidden" value="@Model.getSessionIdEmployee()" id="id_cmt_employee" name="id_cmt_employee" />
+                                                <input type="hidden" value="@id_work" id="add_cmt_idwork" name="add_cmt_idwork" />
+                                                <input type="hidden" value="0" id="add_cmt_idcmt" name="add_cmt_idcmt" />
+                                                <input type="submit" value="Send" id="submit_comment" name="submit_comment" />
+                                            </div>
+                                            <div style="float:left;width:70px;margin-left:5px" id="close_edit_comment">
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
 
 
                         }
@@ -564,7 +620,7 @@
                         {
                             @if (loai.Equals("?id") == true)
                             {
-
+                                
                                 <div style="clear:both">
                                     @foreach (var item in Model.getPublicEmployee())
                                     {
@@ -777,7 +833,26 @@
                                         <div style="float:left">@dayOfWeek</div>
                                     </div>
                                 </div>
+                                <div style="clear:both">
+                                    <h1> Comment</h1>
+                                    <div style="width:100%;height:200px;overflow:auto">
+                                        @foreach (var item in Model.getAllCommentByIdWork(id_get))
+                                        {
+                                            var employee = Model.getEmployeeById(item.IdEmployee + "");
+                                            <div style="clear:both">
+                                                <div style="float:left">
+                                                    @employee.FullName :
+                                                </div>
+                                                <div style="float:left">
+                                                    @item.CommentContent
+                                                </div>
 
+
+                                            </div>
+                                        }
+                                    </div>
+
+                                </div>
 
 
                             }
