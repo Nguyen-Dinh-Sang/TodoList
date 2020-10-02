@@ -47,7 +47,7 @@ namespace PresentationLayer.Pages
                 HttpContext.Session.SetString("idemployee", employee.Id + "");
                 if (employee.IdRole == 1)
                 {
-                    Response.Redirect("/employee");
+                    Response.Redirect("/employee?id="+employee.Id);
                 }
                 else
                 {

@@ -4,7 +4,7 @@
     top: 46px;
     left: -45.75px;
     transform: rotate(90deg);
-    background: black;
+    background: #FFFFFF;
 }
 
 
@@ -24,13 +24,12 @@
 
 #sidebar-wrapper {
     position: fixed;
-    
     width: 250px;
     height: 86.5%;
-    float:left;
+    float: left;
     overflow-y: scroll;
     overflow-x: hidden;
-    background: #000;
+    background: #FFFFFF;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;

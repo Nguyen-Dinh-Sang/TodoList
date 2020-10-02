@@ -81,11 +81,12 @@ namespace DataAccessLayer.Repositories
                          select we;
             todoListDBContext.WorkEmployee.Remove(result.First());
             todoListDBContext.SaveChanges();
-            if (todoListDBContext.WorkEmployee.Find(result.First().Id) == null)
-            {
-                return true;
-            }
-            return false;
+            /* if (todoListDBContext.WorkEmployee.Find(result.First().Id) == null)
+             {
+                 return true;
+             }
+             return false;*/
+            return true;
         }
 
         public Work save(Work work, int idEmployee)

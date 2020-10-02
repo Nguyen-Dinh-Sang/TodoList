@@ -54,44 +54,57 @@ namespace PresentationLayer.Pages
 
         }
         public void OnPost()
-        { if (Request.Form["danhsachcongviec_delete"].Equals("Delete"))
+        {
+            if (String.Compare(Request.Form["submit_logout"], "Đăng xuất") == 0)
+            {
+                logout();
+            }
+            if (String.Compare(Request.Form["danhsachcongviec_delete"], "Xóa") == 0)
             {
                 deleteWorkList();
             }
-            if (Request.Form["Edit_WorkList"].Equals("Edit WorkList"))
+            if ( String.Compare(Request.Form["Edit_WorkList"], "Sửa danh sách công việc") == 0)
             {
                 edit_WorkList();
             }
-            if (Request.Form["Add_WorkList"].Equals("Add WorkList"))
+            if ( String.Compare(Request.Form["Add_WorkList"], "Thêm danh sách") == 0)
             {
                 add_WorkList();
             }
-            if (Request.Form["submit_add_1_employee"].Equals("Add"))
+            if (String.Compare(Request.Form["submit_add_1_employee"], "Thêm") == 0)
             {
                 add_1_Employee();
             }
-            if (Request.Form["Add_Work"].Equals("Add Work"))
+            if (String.Compare(Request.Form["submit_delete_1_employee"], "Xóa") == 0)
+            {
+                delete_1_Employee();
+            }
+            if (String.Compare(Request.Form["submit_Delete_work_employee"], "Xóa") == 0)
+            {
+                delete_1_EmployeeWork();
+            }
+            if ( String.Compare(Request.Form["Add_Work"], "Thêm công việc") == 0)
             {
                 add_work();
             }
-            if (Request.Form["congviec_delete"].Equals("Delete"))
+            if ( String.Compare(Request.Form["congviec_delete"], "Xóa công việc") == 0)
             {
                 deleteWork();
             }
-            if (Request.Form["Edit_Work"].Equals("Edit Work"))
+            if ( String.Compare(Request.Form["Edit_Work"], "Sửa công việc") == 0)
             {
                 edit_work();
             }
-            if (Request.Form["submit_add_work_employee"].Equals("Add"))
+            if ( String.Compare(Request.Form["submit_add_work_employee"], "Thêm") == 0)
             {
                 add_1_EmployeeWork();
             }
-            if (Request.Form["submit_comment"].Equals("Send"))
+            if ( String.Compare(Request.Form["submit_comment"], "Gửi") == 0)
             {
                 add_Comment();
             }
             
-                if (Request.Form["delete_comment"].Equals("Delete"))
+                if ( String.Compare(Request.Form["delete_comment"], "Xóa") == 0)
             {
                 delete_Comment();
             }
@@ -119,6 +132,13 @@ namespace PresentationLayer.Pages
                 edit_StatusWork();
 
             }
+        }
+        public void logout()
+        {
+            HttpContext.Session.SetString("fullname", "");
+            HttpContext.Session.SetString("idrole", "");
+            HttpContext.Session.SetString("idemployee", "");
+            Response.Redirect("/login");
         }
         public void delete_Comment()
         {
@@ -181,7 +201,7 @@ namespace PresentationLayer.Pages
             WorkListDTO workListDTO = new WorkListDTO();
             workListDTO.WorkListName = Request.Form["Edit_WorkListName"];
             workListDTO.IdWorkListStatus = int.Parse(Request.Form["Edit_WorkListStatus"]);
-            workListDTO.DateCreated = DateTime.Parse(Request.Form["Edit_DateCreatedWorkList"]);
+       
             workListDTO.Id = int.Parse(Request.Form["edit_id_worklist"]);
             int edit_id_employee = int.Parse(Request.Form["edit_id_employee"]);
             workListService.save(workListDTO, edit_id_employee);
@@ -210,6 +230,20 @@ namespace PresentationLayer.Pages
             int id_add_1_work = int.Parse(Request.Form["id_add_work"]);
             workService.addEmployee(id_add_1_employee, id_add_1_work);
             Response.Redirect("/employee?congviec=" + id_add_1_work);
+        }
+        public void delete_1_EmployeeWork()
+        {
+            int id_delete_1_employee = int.Parse(Request.Form["id_delete_work_employee"]);
+            int id_delete_1_work = int.Parse(Request.Form["id_delete_work"]);
+            workService.removeEmployee(id_delete_1_employee, id_delete_1_work);
+            Response.Redirect("/employee?congviec=" + id_delete_1_work);
+        }
+        public void delete_1_Employee()
+        {
+            int id_delete_1_employee = int.Parse(Request.Form["id_delete_1_employee"]);
+            int id_delete_1_worklist = int.Parse(Request.Form["id_delete_1_worklist"]);
+            workListService.removeEmployee(id_delete_1_employee,id_delete_1_worklist);
+            Response.Redirect("/employee?danhsachcongviec=" + id_delete_1_worklist);
         }
         public void deleteWorkList()
         {
@@ -242,8 +276,12 @@ namespace PresentationLayer.Pages
             return HttpContext.Session.GetString("id_work");
         }
         public string getSessionFullname()
-        {
-            return HttpContext.Session.GetString("fullname");
+        {if(HttpContext.Session.GetString("fullname") != "")
+            {
+                return HttpContext.Session.GetString("fullname");
+            }
+            else { return ""; }
+            
         }
         public string getSessionIdrole()
         {

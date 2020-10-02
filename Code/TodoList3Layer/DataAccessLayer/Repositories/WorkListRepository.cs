@@ -74,14 +74,15 @@ namespace DataAccessLayer.Repositories
             foreach (var workEmployee in workEmployees)
             {
                 todoListDBContext.WorkEmployee.Remove(workEmployee);
-                todoListDBContext.SaveChanges();
+                
             }
-
-            if (todoListDBContext.WorkListEmployee.Find(result.First().Id) == null)
+            todoListDBContext.SaveChanges();
+            /*if (todoListDBContext.WorkListEmployee.Find(result.First().Id) == null)
             {
                 return true;
             }
-            return false;
+            return false;*/
+            return true;
         }
 
         public WorkList save(WorkList workList, int idEmployee)

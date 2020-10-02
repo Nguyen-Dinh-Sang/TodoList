@@ -36,7 +36,7 @@ function btncomment(id_comment,comment) {
     document.getElementById("add_cmt_idcmt").value = id_comment;
     document.getElementById("Add_Comment").value = comment;
     document.getElementById("Add_Comment").focus();
-    document.getElementById("close_edit_comment").innerHTML = '<button id="btn_close_edit_comment" onclick="huy_edit_comment()" value="0"> Close edit</button>';
+    document.getElementById("close_edit_comment").innerHTML = '<button id="btn_close_edit_comment" onclick="huy_edit_comment()" value="0"> Hủy</button>';
 }
 function huy_edit_comment() {
     document.getElementById("add_cmt_idcmt").value = "0";

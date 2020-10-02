@@ -1,5 +1,5 @@
 ﻿.button {
-    background-color: #58257b; /* màu của Quản trị mạng ^^ */
+    background-color: #58257b; 
     border: none;
     color: white;
     padding: 15px 32px;
@@ -7,5 +7,5 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    border-radius: 50%;
+    border-radius: 15px;
 }
