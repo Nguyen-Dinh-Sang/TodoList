@@ -18,7 +18,7 @@ namespace PresentationLayer.Pages
         public void OnGet()
         {
         }
-        public JsonResult OnPost()
+        public void OnPost()
         {   
             if(Request.Form["login_submit"].Equals("Sign In"))
             {
@@ -29,7 +29,7 @@ namespace PresentationLayer.Pages
             {
                 signUp();
             }
-            return new JsonResult("oke");
+           
         }
 
         
@@ -47,7 +47,7 @@ namespace PresentationLayer.Pages
                 HttpContext.Session.SetString("idemployee", employee.Id + "");
                 if (employee.IdRole == 1)
                 {
-                    Response.Redirect("/employee");
+                    Response.Redirect("/employee?id="+employee.Id);
                 }
                 else
                 {
