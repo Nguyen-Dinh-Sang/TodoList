@@ -106,7 +106,9 @@
 
                     @if (@Request.QueryString.HasValue == true)
                     {
-
+                        <div id="css_xemlist" class="css_xemlist" style=" margin-top:10px; width: 250px; height: 30px; background: #ded5f5; text-align: center; padding-top: 5px; border-radius: 15px; color: black;">
+                            <a href="/employee?id=@Model.getSessionIdEmployee()">Xem danh sách của bạn </a>
+                        </div>
                         var get = Request.QueryString.Value.Split('=');
                         string loai = get[0];
                         string id_get = get[1];
@@ -147,7 +149,7 @@
                                             <div style="" class="css_deleteworklist">
                                                 <form method="post" name="delete_dscongviec">
                                                     <input type="hidden" id="id_delete" name="id_delete" value="@item.Id" />
-                                                    <input type="submit" class="css_btndeleteworklist" onclick=" return confirm('Bạn có thật sự muốn xóa danh sách @item.WorkListName không ?')" id="danhsachcongviec_delete" name="danhsachcongviec_delete" value="Xóa" />
+                                                    <input style="border:0px" type="submit" class="css_btndeleteworklist" onclick=" return confirm('Bạn có thật sự muốn xóa danh sách @item.WorkListName không ?')" id="danhsachcongviec_delete" name="danhsachcongviec_delete" value="Xóa" />
                                                 </form>
                                             </div>
                                             <div style="" class="css_btneditworklist">
@@ -224,12 +226,12 @@
                                 <a href="/employee?Addwork=@id_get">Thêm công việc</a>
                             </div>
 
-                            <div style="" class="css_addemployee">
-                                <button onclick="openNav()">Thêm nhân viên</button>
+                            <div style=" width:200px" class="css_addemployee" >
+                                <button onclick="openNav()">Thêm người làm chung</button>
                             </div>
                             <div style="" class="css_viewemployee">
 
-                                <button onclick="openNavWorkListEmployee()">Xem danh sách nhân viên</button>
+                                <button onclick="openNavWorkListEmployee()">Xóa người làm chung</button>
 
                             </div>
                         </div>
@@ -361,8 +363,8 @@
                                             }
                                         }
                                     </div>
-                                    <div style="float: right; width: 47%; height: auto" >
-                                        <div>
+                                    <div style="float: right; width: 47%; height: auto;"  >
+                                        <div style="color:red">
                                             Trễ hạn:
                                         </div>
                                         @foreach (var item in Model.getAllByIdWorkList(id_get))
@@ -479,20 +481,20 @@
                                     <div style="" class="css_deletework">
                                         <form method="post" name="delete_congviec">
                                             <input type="hidden" id="id_delete_work" name="id_delete_work" value="@congviec.Id" />
-                                            <input type="submit" onclick=" return confirm('Bạn có thật sự muốn xóa công việc @congviec.WorkName không ?')" id="congviec_delete" name="congviec_delete" value="Xóa công việc" />
+                                            <input style="border:0px" type="submit" onclick=" return confirm('Bạn có thật sự muốn xóa công việc @congviec.WorkName không ?')" id="congviec_delete" name="congviec_delete" value="Xóa công việc" />
                                         </form>
                                     </div>
                                     <div style="margin-left:10px" class="css_btneditworklist">
                                         <a href="/employee?Editwork=@congviec.Id">Sửa</a>
                                     </div>
-                                    <div style="" class="css_addemployee">
+                                    <div style="width:200px" class="css_addemployee">
 
-                                        <button onclick="openNavWork()">Thêm nhân viên</button>
+                                        <button onclick="openNavWork()">Thêm người làm chung</button>
 
                                     </div>
                                     <div style="" class="css_viewemployee">
 
-                                        <button onclick="openNavWorkEmployee()">Xem danh sách nhân viên</button>
+                                        <button onclick="openNavWorkEmployee()">Xóa người làm chung</button>
 
                                     </div>
                                 </div>
@@ -523,21 +525,21 @@
                                                         <form method="post">
                                                             <input type="hidden" value="2" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                     <div style="" class="css_btndalam">
                                                         <form method="post">
                                                             <input type="hidden" value="3" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                     <div style="" class="css_btntrehan">
                                                         <form method="post">
                                                             <input type="hidden" value="4" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                 </div>
@@ -560,21 +562,21 @@
                                                         <form method="post">
                                                             <input type="hidden" value="1" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Cần làm" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Cần làm" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                     <div style="" class="css_btndalam">
                                                         <form method="post">
                                                             <input type="hidden" value="3" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                     <div style="" class="css_btntrehan">
                                                         <form method="post">
                                                             <input type="hidden" value="4" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                 </div>
@@ -597,21 +599,21 @@
                                                         <form method="post">
                                                             <input type="hidden" value="1" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Cần làm" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Cần làm" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                     <div style="" class="css_btndanglam">
                                                         <form method="post">
                                                             <input type="hidden" value="2" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                     <div style="" class="css_btntrehan">
                                                         <form method="post">
                                                             <input type="hidden" value="4" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                 </div>
@@ -634,21 +636,21 @@
                                                         <form method="post">
                                                             <input type="hidden" value="1" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Cần làm" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Cần làm" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                     <div style="" class="css_btndanglam">
                                                         <form method="post">
                                                             <input type="hidden" value="2" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                     <div style="" class="css_btndalam">
                                                         <form method="post">
                                                             <input type="hidden" value="3" id="editstatus_id" name="editstatus_id" />
                                                             <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
-                                                            <input type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
+                                                            <input style="border:0px" type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
                                                         </form>
                                                     </div>
                                                 </div>
@@ -753,7 +755,7 @@
                                             <a href="/employee?danhsachcongviec=@item.Id">
                                                 <div style="width:100%;height:100px;  color:black">
                                                     <div>Tên danh sách: @item.WorkListName</div>
-                                                    <div>Trạng thái: @item.IdWorkListStatus</div>
+                                                    <div>Trạng thái: Public</div>
                                                 </div>
 
                                             </a>
@@ -882,8 +884,8 @@
                                                     }
                                                 }
                                             </div>
-                                            <div style="float:right;width:47%;height:auto">
-                                                <div>
+                                            <div style="float:right;width:47%;height:auto; ">
+                                                <div style="color:red">
                                                     Trễ hạn:
                                                 </div>
                                                 @foreach (var item in Model.getAllByIdWorkList(id_get))
@@ -933,7 +935,7 @@
                                 <div class="css_back"><a href="/employee?danhsachcongviec=@id_worklist">Trở lại</a></div>
 
 
-                                <div style="width:80%;height:300px; text-align:left;background:#f2f2f2">
+                                <div style="width:80%;height:300px; text-align:left;background:#f2f2f2;" >
                                     <h2>Chi tiết công việc:</h2>
                                     <div style="margin-top:5px">
                                         <div style="float:left;width:20%">Tên công việc :</div>
