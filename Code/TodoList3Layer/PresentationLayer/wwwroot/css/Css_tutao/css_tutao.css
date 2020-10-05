@@ -40,11 +40,15 @@
     margin-bottom: 10px;
     display: inline-block;
 }
+.css_deleteworklist input{
+    border:0px;
+}
 .css_btndeleteworklist {
     display: inline-block;
     background: #F05151;
     width: 100%;
     height: 100%;
+    border:0px;
 }
 .css_addworklist {
     text-align: center;
@@ -84,6 +88,7 @@
     padding-top: 7px;
     border-radius: 15px;
     margin-top: 10px;
+    margin-bottom:10px;
 }
 .css_back a{
     width:100%;
@@ -107,9 +112,8 @@
         padding-left: 5px;
         margin-left: 5px;
         background: #CEE3F6;
-        width: 150px;
+        width: 200px;
         height: 30px;
-       
         text-align: center;
         border-radius: 15px;
     }
@@ -263,8 +267,14 @@
     text-align: center;
     margin-top: 5px;
 }
-.input{
-    border:solid 1px black;
+#css_xemlist {
+    width: 250px;
+    height: 30px;
+    background: #ded5f5;
+    text-align: center;
+    padding-top: 5px;
+    border-radius: 15px;
+    color: black;
 }
 
 
