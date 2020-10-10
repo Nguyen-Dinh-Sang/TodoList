@@ -684,6 +684,25 @@
 
                                 <div style="clear:both">
                                     <h1> Bình luận</h1>
+                                    <div>
+                                        <form method="post">
+                                            <div class="group" style="float:left">
+                                                <div style="float:left"><label for="Comment" class="label">Bình luận:</label></div>
+                                                <div style="float:left"><input id="Add_Comment" type="text" class="input" name="Add_Comment" placeholder="Comment..."></div>
+                                            </div>
+                                            <div style="float:left">
+                                                <div style="" class="css_send">
+                                                    <input type="hidden" value="@Model.getSessionIdEmployee()" id="id_cmt_employee" name="id_cmt_employee" />
+                                                    <input type="hidden" value="@id_work" id="add_cmt_idwork" name="add_cmt_idwork" />
+                                                    <input type="hidden" value="0" id="add_cmt_idcmt" name="add_cmt_idcmt" />
+                                                    <input type="submit" style="border:0px" value="Gửi" id="submit_comment" name="submit_comment" />
+                                                </div>
+                                                <div style="" id="close_edit_comment" class="css_close">
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                     <div style="width:100%;height:200px;overflow:auto">
                                         @foreach (var item in Model.getAllCommentByIdWork(id_get))
                                         {
@@ -703,7 +722,7 @@
                                                         <div style="float:left">
                                                             <form method="post">
                                                                 <input type="hidden" value="@item.Id" id="delete_cmt_idcmt" name="delete_cmt_idcmt" />
-                                                                <input type="submit" value="Xóa" id="delete_comment" name="delete_comment" style="background:white" />
+                                                                <input type="submit" style="border:0px" value="Xóa" id="delete_comment" name="delete_comment" style="background:white" />
                                                             </form>
                                                         </div>
                                                         <div style="float:left; margin-left:10px">
@@ -718,25 +737,7 @@
                                             </div>
                                         }
                                     </div>
-                                    <div>
-                                        <form method="post">
-                                            <div class="group" style="float:left">
-                                                <div style="float:left"><label for="Comment" class="label">Bình luận:</label></div>
-                                                <div style="float:left"><input id="Add_Comment" type="text" class="input" name="Add_Comment" placeholder="Comment..."></div>
-                                            </div>
-                                            <div style="float:left">
-                                                <div style="" class="css_send">
-                                                    <input type="hidden" value="@Model.getSessionIdEmployee()" id="id_cmt_employee" name="id_cmt_employee" />
-                                                    <input type="hidden" value="@id_work" id="add_cmt_idwork" name="add_cmt_idwork" />
-                                                    <input type="hidden" value="0" id="add_cmt_idcmt" name="add_cmt_idcmt" />
-                                                    <input type="submit" value="Gửi" id="submit_comment" name="submit_comment" />
-                                                </div>
-                                                <div style="" id="close_edit_comment" class="css_close">
 
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
                                 </div>
                             }
 
@@ -748,7 +749,7 @@
                             @if (loai.Equals("?id") == true)
                             {
 
-                                <div style="clear:both">
+                                <div style="clear:both;margin-top: 10px;">
                                     @foreach (var item in Model.getPublicEmployee())
                                     {
                                         <div style=" background: #F2F2F2;padding-top:5px;height:100px">
