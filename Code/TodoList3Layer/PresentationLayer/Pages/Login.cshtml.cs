@@ -78,13 +78,17 @@ namespace PresentationLayer.Pages
                     Console.WriteLine("Email đã tồn tại");
                 }
                 else
-                {
-                    employeeService.save(employeeDTO);
+                {if (!string.IsNullOrEmpty(employeeDTO.Email) && !string.IsNullOrEmpty(employeeDTO.FullName) && !string.IsNullOrEmpty(employeeDTO.Password))
+                    { employeeService.save(employeeDTO);
+                     
+                    }
+
                 }
 
 
             }
         }
+      
     }
     
 }

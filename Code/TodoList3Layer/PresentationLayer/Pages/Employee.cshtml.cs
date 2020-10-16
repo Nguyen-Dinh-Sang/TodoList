@@ -154,7 +154,11 @@ namespace PresentationLayer.Pages
             commentDTO.IdWork = int.Parse(Request.Form["add_cmt_idwork"]);
             commentDTO.Id = int.Parse(Request.Form["add_cmt_idcmt"]);
             commentDTO.CommentContent = Request.Form["Add_Comment"];
-            commentService.save(commentDTO);
+            if (commentDTO.CommentContent != "")
+            {
+                commentService.save(commentDTO);
+            }    
+            
             Response.Redirect("/employee?congviec=" + commentDTO.IdWork);
         }
         public void edit_StatusWork()
